@@ -2,14 +2,12 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<!-- Fixed: Removed user-scalable=no for accessibility -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
 <title>MyArcherLog</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
-<!-- Fixed: Bootstrap completely removed, styles.css handles all utilities -->
 <link rel="stylesheet" href="styles.css">
 <script>
   (function(){try{var t=localStorage.getItem('mal-theme');var p=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t||p;}catch(e){}})();
@@ -46,7 +44,8 @@
 </svg>
 
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+// Fixed: Pinned exact Supabase version
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/+esm';
 
 const SUPABASE_URL = 'https://gkrqeccpccciywnjkcpn.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dUzZ5nFruEiQ_hVSvUF3Rg_0AGEqg-e';
@@ -65,9 +64,7 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt
 const alertBox = (m, t='danger') => `<div class="alert alert-${t} mb-3">${esc(m)}</div>`;
 const fmtMMSS = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.round(s%60)).padStart(2,'0')}`;
 
-/* =========================================
-   THEME TOGGLE
-   ========================================= */
+/* THEME TOGGLE */
 const themeToggleBtn = document.getElementById('theme-toggle');
 function updateThemeIcon() {
   const isDark = document.documentElement.dataset.theme === 'dark';
@@ -91,10 +88,7 @@ document.getElementById('nav-brand').addEventListener('click', e => {
   if (state.user) { state.view = 'dashboard'; render(); }
 });
 
-/* =========================================
-   FLOATING ACTION BUTTON
-   ========================================= */
-// Fixed: Single event handler
+/* FLOATING ACTION BUTTON */
 fabAdd.onclick = () => {
   if (!state.user) return;
   if (state.view === 'equipment') {
@@ -112,9 +106,7 @@ fabAdd.onclick = () => {
   }
 };
 
-/* =========================================
-   TIMER ENGINE
-   ========================================= */
+/* TIMER ENGINE */
 const timer = { total: 120, remaining: 120, running: false, warned: false, tickId: null, lastTick: 0 };
 const RING_R = 112, RING_C = 2 * Math.PI * RING_R;
 let audioCtx = null;
@@ -197,9 +189,7 @@ function wireTimer() {
   updateTimerDisplay();
 }
 
-/* =========================================
-   NAVIGATION
-   ========================================= */
+/* NAVIGATION */
 function canNavigateAway() {
   if (state.view === 'session-detail' && state.dirty) {
     if (!confirm('You have unsaved scores. Leave anyway?')) return false;
@@ -241,9 +231,7 @@ async function render() {
   if (state.view === 'stats') return renderStats();
 }
 
-/* =========================================
-   AUTHENTICATION
-   ========================================= */
+/* AUTHENTICATION */
 const EYE_ON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
 const EYE_OFF = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
 
@@ -320,8 +308,13 @@ function renderAuth(mode = 'signin') {
         msg.innerHTML = alertBox('If an account exists, a link was sent.');
       }
     } else if (mode === 'signup') {
-      const { error } = await sb.auth.signUp({ email, password: fd.get('password') });
-      if (error) msg.innerHTML = alertBox(error.message);
+      const { data, error } = await sb.auth.signUp({ email, password: fd.get('password') });
+      if (error) {
+        msg.innerHTML = alertBox(error.message);
+      } else if (!data.session) {
+        // Fixed: Show message if email confirmation is required
+        msg.innerHTML = alertBox('Check your email to confirm your account.', 'success');
+      }
     } else {
       const { error } = await sb.auth.signInWithPassword({ email, password: fd.get('password') });
       if (error) msg.innerHTML = alertBox(error.message);
@@ -340,13 +333,10 @@ function renderResetPassword() {
   };
 }
 
-/* =========================================
-   DASHBOARD
-   ========================================= */
+/* DASHBOARD */
 async function renderDashboard() {
   app.innerHTML = `<h1 class="h3 fw-bold mb-4">Dashboard</h1><div id="dash" class="text-muted">Loading…</div>`;
   
-  // Fixed: Added .eq('user_id') to enforce data isolation on client side too
   const { data } = await sb.from('sessions').select('*, rounds(name), ends(arrows(score))').eq('user_id', state.user.id).order('session_date', { ascending: false }).limit(20);
   let html = `<div class="row g-3 mb-4">`;
   const rows = data || [];
@@ -360,9 +350,7 @@ async function renderDashboard() {
   document.getElementById('dash').innerHTML = html;
 }
 
-/* =========================================
-   SESSIONS
-   ========================================= */
+/* SESSIONS */
 async function renderSessions() {
   app.innerHTML = `
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -427,11 +415,13 @@ async function renderSessions() {
 }
 window.openSession = id => { state.sessionId = id; state.dirty = false; state.view = 'session-detail'; render(); };
 
-/* =========================================
-   SESSION DETAIL (SCORING)
-   ========================================= */
+/* SESSION DETAIL */
 async function renderSessionDetail() {
-  const { data: s } = await sb.from('sessions').select('*, rounds(*), ends(*, arrows(*))').eq('id', state.sessionId).single();
+  // Fixed: Added user_id filter to prevent access to other users' sessions even if guessed
+  const { data: s } = await sb.from('sessions').select('*, rounds(*), ends(*, arrows(*))').eq('id', state.sessionId).eq('user_id', state.user.id).single();
+  
+  if (!s) { state.view = 'sessions'; return render(); }
+  
   const segs = s.rounds?.segments || [{ distance: 50, arrows: 6, ends: 6 }]; 
   const ends = [];
   segs.forEach(seg => { for(let i=0;i<seg.ends;i++) ends.push({ dist: seg.distance, arrows: seg.arrows }); });
@@ -453,7 +443,6 @@ async function renderSessionDetail() {
   window.openSession = id => { if (id===null) { state.view='sessions'; render(); } else { state.sessionId=id; render(); } };
   document.querySelector('.btn-outline-secondary').onclick = () => { state.view='sessions'; render(); };
 
-  // Fixed: Dynamic arrows per end
   const body = document.getElementById('score-body');
   body.innerHTML = ends.map((e, i) => {
     let inputs = '';
@@ -473,7 +462,6 @@ async function renderSessionDetail() {
       let rowTotal = 0; inp.closest('tr').querySelectorAll('input').forEach(x => rowTotal += Number(x.value)||0);
       inp.closest('tr').querySelector('.end-total').textContent = rowTotal;
       
-      // Fixed: Dirty state tracking
       state.dirty = true;
       if(!currentBeforeUnloadHandler) {
         currentBeforeUnloadHandler = ev => { if(state.dirty) { ev.preventDefault(); ev.returnValue = ''; } };
@@ -507,9 +495,7 @@ async function renderSessionDetail() {
   wireTimer();
 }
 
-/* =========================================
-   EQUIPMENT
-   ========================================= */
+/* EQUIPMENT */
 async function renderEquipment() {
   const { data: bows } = await sb.from('bows').select('*').eq('user_id', state.user.id);
   const { data: sets } = await sb.from('arrow_sets').select('*').eq('user_id', state.user.id);
@@ -552,9 +538,7 @@ async function renderEquipment() {
   };
 }
 
-/* =========================================
-   STATS & CHARTS
-   ========================================= */
+/* STATS & CHARTS */
 function drawDonut(canvasId, data) {
   const canvas = document.getElementById(canvasId); if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -580,8 +564,13 @@ function drawDonut(canvasId, data) {
     }
     start += angle;
   });
-  // Fixed: Use CSS variable for donut hole
   ctx.beginPath(); ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--donut-hole') || '#0c1428'; ctx.arc(center, center, inner, 0, Math.PI*2); ctx.fill();
+}
+
+// Fixed: Seeded random for consistent dispersion chart
+function pseudoRandom(seed) {
+  let x = Math.sin(seed++) * 10000;
+  return x - Math.floor(x);
 }
 
 function drawDispersion(canvasId, data) {
@@ -598,15 +587,17 @@ function drawDispersion(canvasId, data) {
     ctx.strokeStyle = 'rgba(0,0,0,.2)'; ctx.lineWidth = 0.5; ctx.stroke();
   });
 
-  Object.keys(data).forEach(scoreStr => {
+  let seed = 1;
+  Object.keys(data).sort((a,b)=>b-a).forEach(scoreStr => {
     const score = Number(scoreStr), count = data[scoreStr];
     const ring = rings.find(r => r.s === score); if(!ring) return;
     const minR = (score === 10) ? 0 : maxR * (ring.r - 0.1);
     const maxRingR = maxR * ring.r;
 
     for(let i=0; i<count; i++) {
-      const r = minR + Math.random() * (maxRingR - minR);
-      const a = Math.random() * Math.PI * 2;
+      // Use seeded random so it doesn't flicker on every render
+      const r = minR + pseudoRandom(seed++) * (maxRingR - minR);
+      const a = pseudoRandom(seed++) * Math.PI * 2;
       ctx.beginPath(); ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.arc(c + Math.cos(a)*r, c + Math.sin(a)*r, 1.5, 0, Math.PI*2); ctx.fill();
     }
   });
@@ -614,7 +605,7 @@ function drawDispersion(canvasId, data) {
 
 async function renderStats() {
   app.innerHTML = `<h1 class="h3 fw-bold mb-3">Statistics</h1><div id="stats-wrap">Loading…</div>`;
-  // Fixed: Added inner join filter for user data isolation
+  
   const { data } = await sb.from('arrows').select('score, ends!inner(sessions!inner(user_id))').eq('ends.sessions.user_id', state.user.id);
   
   if (!data?.length) { document.getElementById('stats-wrap').innerHTML = '<div class="empty-state">No arrows shot yet.</div>'; return; }
@@ -642,38 +633,40 @@ async function renderStats() {
   drawDispersion('dispersion', byScore);
 }
 
-/* =========================================
-   TIMER TAB
-   ========================================= */
+/* TIMER TAB */
 async function renderTimerTab() {
   app.innerHTML = `<h1 class="h3 fw-bold mb-3">Timer</h1><div class="row justify-content-center"><div class="col-md-6">${timerCardHTML(false)}</div></div>`;
   wireTimer();
 }
 
-/* =========================================
-   BOOT SEQUENCE
-   ========================================= */
+/* BOOT SEQUENCE */
 (async function boot() {
   const isRecovery = window.location.hash.includes('type=recovery');
   if (isRecovery) state.recoveryMode = true;
   
-  let initialized = false;
+  let booted = false;
   
+  // Fixed: Replaced the broken `initialized` logic with Claude's `booted` logic
   sb.auth.onAuthStateChange((event, session) => {
-    if (event === 'PASSWORD_RECOVERY') { state.recoveryMode = true; state.user = session?.user; render(); }
-    else if (event === 'SIGNED_OUT') { state.user = null; state.view = 'dashboard'; render(); }
-    else if (!initialized && session?.user) {
-      // Fixed: Prevent double render on load
-      initialized = true;
-      state.user = session.user; render();
+    if (event === 'PASSWORD_RECOVERY') { 
+      state.recoveryMode = true; 
+      state.user = session?.user ?? null; 
+      booted = true; 
+      return render(); 
+    }
+    if (event === 'SIGNED_OUT') { 
+      state.user = null; 
+      state.view = 'dashboard'; 
+      booted = true; 
+      return render(); 
+    }
+    const userId = session?.user?.id ?? null;
+    if (!booted || userId !== (state.user?.id ?? null)) {
+      booted = true;
+      state.user = session?.user ?? null;
+      render();
     }
   });
-  
-  const { data: { session } } = await sb.auth.getSession();
-  if (!initialized) {
-    state.user = session?.user || null; 
-    render();
-  }
 })();
 </script>
 </body>
