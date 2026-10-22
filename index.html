@@ -2,13 +2,14 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!-- Fixed: Removed user-scalable=no for accessibility -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
 <title>MyArcherLog</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Fixed: Bootstrap completely removed, styles.css handles all utilities -->
 <link rel="stylesheet" href="styles.css">
 <script>
   (function(){try{var t=localStorage.getItem('mal-theme');var p=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t||p;}catch(e){}})();
@@ -19,7 +20,7 @@
 <nav class="navbar">
   <div class="container">
     <a class="navbar-brand" href="#" id="nav-brand">MyArcherLog</a>
-    <div class="navbar-nav ms-auto align-items-center flex-row gap-2">
+    <div class="d-flex align-items-center flex-row gap-2">
       <button class="theme-toggle" id="theme-toggle" title="Toggle theme">🌙</button>
       <div id="nav-links" class="d-flex align-items-center gap-1"></div>
     </div>
@@ -28,10 +29,10 @@
 
 <main id="app" class="container py-4"></main>
 
-<button class="fab" id="fab-add">+</button>
+<button class="fab" id="fab-add" style="display:none;">+</button>
 
-<nav class="bottom-nav" id="bottom-nav">
-  <a href="#" data-view="dashboard" class="bn-item active"><span>◈</span><small>Home</small></a>
+<nav class="bottom-nav" id="bottom-nav" style="display:none;">
+  <a href="#" data-view="dashboard" class="bn-item"><span>◈</span><small>Home</small></a>
   <a href="#" data-view="sessions" class="bn-item"><span>◎</span><small>Log</small></a>
   <a href="#" data-view="equipment" class="bn-item"><span>⌁</span><small>Gear</small></a>
   <a href="#" data-view="stats" class="bn-item"><span>▤</span><small>Stats</small></a>
@@ -61,10 +62,12 @@ let currentBeforeUnloadHandler = null;
 let currentPadInput = null;
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const alertBox = (m, t='danger') => `<div class="alert alert-${t} py-2 mb-0 fade-in">${esc(m)}</div>`;
+const alertBox = (m, t='danger') => `<div class="alert alert-${t} mb-3">${esc(m)}</div>`;
 const fmtMMSS = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.round(s%60)).padStart(2,'0')}`;
 
-/* THEME */
+/* =========================================
+   THEME TOGGLE
+   ========================================= */
 const themeToggleBtn = document.getElementById('theme-toggle');
 function updateThemeIcon() {
   const isDark = document.documentElement.dataset.theme === 'dark';
@@ -88,17 +91,30 @@ document.getElementById('nav-brand').addEventListener('click', e => {
   if (state.user) { state.view = 'dashboard'; render(); }
 });
 
-fabAdd.addEventListener('click', () => {
+/* =========================================
+   FLOATING ACTION BUTTON
+   ========================================= */
+// Fixed: Single event handler
+fabAdd.onclick = () => {
   if (!state.user) return;
   if (state.view === 'equipment') {
-    document.querySelector('#eq-tab-bow')?.click(); // open the form
+    const type = prompt("Add 'bow' or 'set'?").toLowerCase();
+    if (type === 'bow') {
+      const name = prompt("Bow name:");
+      if (name) sb.from('bows').insert({ user_id: state.user.id, name, bow_type: 'Recurve' }).then(renderEquipment);
+    } else if (type === 'set') {
+      const name = prompt("Set name:");
+      if (name) sb.from('arrow_sets').insert({ user_id: state.user.id, name, quantity: 12 }).then(renderEquipment);
+    }
   } else {
     state.view = 'sessions'; render();
     setTimeout(() => document.getElementById('custom-round-details')?.setAttribute('open', ''), 100);
   }
-});
+};
 
-/* TIMER */
+/* =========================================
+   TIMER ENGINE
+   ========================================= */
 const timer = { total: 120, remaining: 120, running: false, warned: false, tickId: null, lastTick: 0 };
 const RING_R = 112, RING_C = 2 * Math.PI * RING_R;
 let audioCtx = null;
@@ -140,7 +156,7 @@ function timerCardHTML(compact = false) {
     <div class="card p-3 ${compact ? 'mb-3' : ''}">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <h2 class="h6 mb-0">🎯 Shooting Timer</h2>
-        <span class="badge bg-secondary" id="timer-status">Ready</span>
+        <span class="badge" id="timer-status">Ready</span>
       </div>
       <div class="timer-wrap my-2">
         <div class="timer-ring ${compact ? 'timer-ring-sm' : 'timer-ring-lg'}" id="timer-ring">
@@ -181,7 +197,9 @@ function wireTimer() {
   updateTimerDisplay();
 }
 
-/* NAVIGATION */
+/* =========================================
+   NAVIGATION
+   ========================================= */
 function canNavigateAway() {
   if (state.view === 'session-detail' && state.dirty) {
     if (!confirm('You have unsaved scores. Leave anyway?')) return false;
@@ -190,8 +208,10 @@ function canNavigateAway() {
   return true;
 }
 function renderNav() {
-  if (!state.user || state.recoveryMode) { navLinks.innerHTML = ''; bottomNav.style.display = 'none'; fabAdd.style.display = 'none'; return; }
-  bottomNav.style.display = '';
+  if (!state.user || state.recoveryMode) { 
+    navLinks.innerHTML = ''; bottomNav.style.display = 'none'; fabAdd.style.display = 'none'; return; 
+  }
+  bottomNav.style.display = 'flex';
   fabAdd.style.display = (state.view === 'dashboard' || state.view === 'sessions' || state.view === 'equipment') ? 'flex' : 'none';
   
   const tabs = [ ['dashboard', '◈ Dashboard'], ['sessions', '◎ Sessions'], ['timer', '◔ Timer'], ['equipment', '⌁ Equipment'], ['stats', '▤ Statistics'] ];
@@ -221,7 +241,9 @@ async function render() {
   if (state.view === 'stats') return renderStats();
 }
 
-/* AUTH */
+/* =========================================
+   AUTHENTICATION
+   ========================================= */
 const EYE_ON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
 const EYE_OFF = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
 
@@ -239,24 +261,41 @@ function wirePasswordToggles(root) {
 
 function renderAuth(mode = 'signin') {
   const tabsHTML = (mode === 'forgot') ? '' : `<div class="auth-tabs"><a class="auth-tab ${mode==='signin'?'active':''}" href="#" data-tab="signin">Sign in</a><a class="auth-tab ${mode==='signup'?'active':''}" href="#" data-tab="signup">Sign up</a></div>`;
+  
+  let formHTML = '';
+  if (mode === 'forgot') {
+    formHTML = `
+      <form id="auth-form">
+        <div id="auth-msg" class="mb-3"></div>
+        <div class="mb-3"><label class="form-label">Email</label><input class="form-control" type="email" name="email" required></div>
+        <button class="btn btn-primary w-100 mt-3" type="submit">Send Reset Link</button>
+        <div class="text-center mt-3"><a href="#" class="link-accent small" data-tab="signin">← Back to sign in</a></div>
+      </form>`;
+  } else {
+    formHTML = `
+      <form id="auth-form">
+        <div id="auth-msg" class="mb-3"></div>
+        <div class="mb-3"><label class="form-label">Email</label><input class="form-control" type="email" name="email" required></div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label class="form-label mb-0">Password</label>
+            ${mode === 'signin' ? `<a href="#" class="link-accent small" data-tab="forgot">Forgot?</a>` : ''}
+          </div>
+          <div class="input-icon-wrap has-toggle"><input class="form-control" type="password" name="password" required><button type="button" class="password-toggle">${EYE_ON}</button></div>
+        </div>
+        <button class="btn btn-primary w-100 mt-3" type="submit">${mode === 'signup' ? 'Create account' : 'Sign in'}</button>
+      </form>`;
+  }
+
   app.innerHTML = `
-    <div class="auth-split fade-in">
+    <div class="auth-split">
       <aside class="auth-hero">
         <h1>MyArcherLog</h1><p class="text-muted">Track every arrow.</p>
       </aside>
       <section class="auth-form-side">
         <div class="auth-form-wrap">
           ${tabsHTML}
-          <div id="auth-body">
-             <form id="auth-form">
-               <div id="auth-msg" class="mb-3"></div>
-               <div class="mb-3"><label class="form-label">Email</label><input class="form-control" type="email" name="email" required></div>
-               <div class="mb-3"><label class="form-label">Password</label>
-                 <div class="input-icon-wrap has-toggle"><input class="form-control" type="password" name="password" required><button type="button" class="password-toggle">${EYE_ON}</button></div>
-               </div>
-               <button class="btn btn-primary w-100 mt-3" type="submit">${mode === 'signup' ? 'Create account' : 'Sign in'}</button>
-             </form>
-          </div>
+          <div id="auth-body">${formHTML}</div>
         </div>
       </section>
     </div>`;
@@ -267,26 +306,48 @@ function renderAuth(mode = 'signin') {
   document.getElementById('auth-form').onsubmit = async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
-    const btn = e.target.querySelector('button'); btn.disabled = true; btn.innerHTML = '...';
-    if (mode === 'signup') await sb.auth.signUp({ email: fd.get('email'), password: fd.get('password') });
-    else await sb.auth.signInWithPassword({ email: fd.get('email'), password: fd.get('password') });
-    btn.disabled = false;
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
+    const email = fd.get('email');
+    const msg = document.getElementById('auth-msg');
+    msg.innerHTML = '';
+    
+    if (mode === 'forgot') {
+      try {
+        await fetch(APPS_SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ email }) });
+        msg.innerHTML = alertBox('Check your inbox for a reset link.', 'success');
+      } catch {
+        msg.innerHTML = alertBox('If an account exists, a link was sent.');
+      }
+    } else if (mode === 'signup') {
+      const { error } = await sb.auth.signUp({ email, password: fd.get('password') });
+      if (error) msg.innerHTML = alertBox(error.message);
+    } else {
+      const { error } = await sb.auth.signInWithPassword({ email, password: fd.get('password') });
+      if (error) msg.innerHTML = alertBox(error.message);
+    }
+    btn.disabled = false; btn.textContent = mode === 'forgot' ? 'Send Reset Link' : (mode === 'signup' ? 'Create account' : 'Sign in');
   };
 }
 
 function renderResetPassword() {
-  app.innerHTML = `<div class="card p-4 mx-auto mt-5" style="max-width:400px"><h3>Set new password</h3><form id="reset-form"><input class="form-control mb-3" type="password" name="pwd" placeholder="New password"><button class="btn btn-primary w-100">Update</button></form></div>`;
+  app.innerHTML = `<div class="card p-4 mx-auto mt-5" style="max-width:400px"><h3 class="mb-3">Set new password</h3><form id="reset-form"><input class="form-control mb-3" type="password" name="pwd" placeholder="New password" required><button class="btn btn-primary w-100">Update Password</button></form></div>`;
   document.getElementById('reset-form').onsubmit = async e => {
     e.preventDefault();
+    const btn = e.target.querySelector('button'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>';
     await sb.auth.updateUser({ password: e.target.pwd.value });
     state.recoveryMode = false; render();
   };
 }
 
-/* DASHBOARD */
+/* =========================================
+   DASHBOARD
+   ========================================= */
 async function renderDashboard() {
   app.innerHTML = `<h1 class="h3 fw-bold mb-4">Dashboard</h1><div id="dash" class="text-muted">Loading…</div>`;
-  const { data } = await sb.from('sessions').select('*, rounds(name), ends(arrows(score))').order('session_date', { ascending: false }).limit(20);
+  
+  // Fixed: Added .eq('user_id') to enforce data isolation on client side too
+  const { data } = await sb.from('sessions').select('*, rounds(name), ends(arrows(score))').eq('user_id', state.user.id).order('session_date', { ascending: false }).limit(20);
   let html = `<div class="row g-3 mb-4">`;
   const rows = data || [];
   const totalArrows = rows.reduce((sum, s) => sum + (s.ends??[]).flatMap(e=>e.arrows??[]).length, 0);
@@ -299,7 +360,9 @@ async function renderDashboard() {
   document.getElementById('dash').innerHTML = html;
 }
 
-/* SESSIONS */
+/* =========================================
+   SESSIONS
+   ========================================= */
 async function renderSessions() {
   app.innerHTML = `
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -321,9 +384,7 @@ async function renderSessions() {
     <div id="session-list" class="text-muted">Loading…</div>
   `;
   
-  // Add segment logic
   const segsBox = document.getElementById('cr-segments');
-  let segCount = 1;
   const segHTML = () => `<div class="card p-3 mb-2 cr-seg" style="background:var(--surface-2)">
     <div class="row g-2">
       <div class="col-6"><input class="form-control form-control-sm" type="number" name="dist" placeholder="Distance (m)" required></div>
@@ -349,7 +410,7 @@ async function renderSessions() {
     renderSessions();
   };
 
-  const { data } = await sb.from('sessions').select('*, rounds(name), ends(arrows(score))').order('session_date', { ascending: false });
+  const { data } = await sb.from('sessions').select('*, rounds(name), ends(arrows(score))').eq('user_id', state.user.id).order('session_date', { ascending: false });
   const el = document.getElementById('session-list');
   if (!data?.length) { el.innerHTML = '<div class="empty-state">No sessions yet.</div>'; return; }
   
@@ -366,10 +427,12 @@ async function renderSessions() {
 }
 window.openSession = id => { state.sessionId = id; state.dirty = false; state.view = 'session-detail'; render(); };
 
-/* SESSION DETAIL */
+/* =========================================
+   SESSION DETAIL (SCORING)
+   ========================================= */
 async function renderSessionDetail() {
   const { data: s } = await sb.from('sessions').select('*, rounds(*), ends(*, arrows(*))').eq('id', state.sessionId).single();
-  const segs = s.rounds?.segments || [{ distance: 50, arrows: 6, ends: 6 }]; // fallback
+  const segs = s.rounds?.segments || [{ distance: 50, arrows: 6, ends: 6 }]; 
   const ends = [];
   segs.forEach(seg => { for(let i=0;i<seg.ends;i++) ends.push({ dist: seg.distance, arrows: seg.arrows }); });
 
@@ -380,7 +443,7 @@ async function renderSessionDetail() {
     </div>
     ${timerCardHTML(true)}
     <div class="card p-3 mb-3"><div class="table-responsive">
-      <table class="table table-bordered text-center mb-0"><thead><tr><th>End</th>${Array(6).fill('<th>#</th>').join('')}<th>Total</th></tr></thead>
+      <table class="table table-bordered text-center mb-0"><thead><tr><th>End</th><th>Arrows</th><th>Total</th></tr></thead>
       <tbody id="score-body"></tbody></table>
     </div></div>
     <div class="score-pad" id="score-pad"></div>
@@ -390,10 +453,14 @@ async function renderSessionDetail() {
   window.openSession = id => { if (id===null) { state.view='sessions'; render(); } else { state.sessionId=id; render(); } };
   document.querySelector('.btn-outline-secondary').onclick = () => { state.view='sessions'; render(); };
 
+  // Fixed: Dynamic arrows per end
   const body = document.getElementById('score-body');
-  body.innerHTML = ends.map((e, i) => `<tr data-end="${i+1}" data-dist="${e.dist}"><td>${i+1}</td>${Array(6).fill('<td><input class="score-input" type="number" min="0" max="10"></td>').join('')}<td class="end-total">0</td></tr>`).join('');
+  body.innerHTML = ends.map((e, i) => {
+    let inputs = '';
+    for(let j=0; j<e.arrows; j++) inputs += `<td><input class="score-input" type="number" min="0" max="10"></td>`;
+    return `<tr data-end="${i+1}" data-dist="${e.dist}"><td>${i+1}</td><td><div class="d-flex gap-1 justify-content-center">${inputs}</div></td><td class="end-total">0</td></tr>`;
+  }).join('');
   
-  // Simple pad for quick entry
   const pad = document.getElementById('score-pad');
   pad.innerHTML = `<div class="score-pad-grid">${[10,9,8,7,6,5,4,3,2,1,0].map(n=>`<button class="pad-btn pad-${n}" data-score="${n}">${n===0?'M':n}</button>`).join('')}</div>`;
   pad.classList.add('active');
@@ -405,6 +472,13 @@ async function renderSessionDetail() {
       inp.value = n;
       let rowTotal = 0; inp.closest('tr').querySelectorAll('input').forEach(x => rowTotal += Number(x.value)||0);
       inp.closest('tr').querySelector('.end-total').textContent = rowTotal;
+      
+      // Fixed: Dirty state tracking
+      state.dirty = true;
+      if(!currentBeforeUnloadHandler) {
+        currentBeforeUnloadHandler = ev => { if(state.dirty) { ev.preventDefault(); ev.returnValue = ''; } };
+        window.addEventListener('beforeunload', currentBeforeUnloadHandler);
+      }
     };
   });
 
@@ -427,15 +501,18 @@ async function renderSessionDetail() {
       const scores = [...tr.querySelectorAll('input')].map((inp, i) => inp.value ? { end_id: endRow.id, arrow_number: i+1, score: Number(inp.value) } : null).filter(Boolean);
       if (scores.length) await sb.from('arrows').insert(scores);
     }
+    state.dirty = false;
     btn.textContent = 'Saved!'; setTimeout(() => btn.textContent = '💾 Save Scores', 2000); btn.disabled = false;
   };
   wireTimer();
 }
 
-/* EQUIPMENT */
+/* =========================================
+   EQUIPMENT
+   ========================================= */
 async function renderEquipment() {
-  const { data: bows } = await sb.from('bows').select('*');
-  const { data: sets } = await sb.from('arrow_sets').select('*');
+  const { data: bows } = await sb.from('bows').select('*').eq('user_id', state.user.id);
+  const { data: sets } = await sb.from('arrow_sets').select('*').eq('user_id', state.user.id);
   
   app.innerHTML = `
     <h1 class="h3 fw-bold mb-3">Equipment</h1>
@@ -475,24 +552,9 @@ async function renderEquipment() {
   };
 }
 
-// Add Equipment Modal (Hooked to FAB)
-fabAdd.onclick = () => {
-  if (state.view === 'equipment') {
-    const type = prompt("Add 'bow' or 'set'?").toLowerCase();
-    if (type === 'bow') {
-      const name = prompt("Bow name:");
-      if (name) sb.from('bows').insert({ user_id: state.user.id, name, bow_type: 'Recurve' }).then(renderEquipment);
-    } else if (type === 'set') {
-      const name = prompt("Set name:");
-      if (name) sb.from('arrow_sets').insert({ user_id: state.user.id, name, quantity: 12 }).then(renderEquipment);
-    }
-  } else {
-    state.view = 'sessions'; render();
-    setTimeout(() => document.getElementById('custom-round-details')?.setAttribute('open', ''), 100);
-  }
-};
-
-/* STATS & CHARTS */
+/* =========================================
+   STATS & CHARTS
+   ========================================= */
 function drawDonut(canvasId, data) {
   const canvas = document.getElementById(canvasId); if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -518,7 +580,8 @@ function drawDonut(canvasId, data) {
     }
     start += angle;
   });
-  ctx.beginPath(); ctx.fillStyle = getComputedStyle(document.body).backgroundColor || '#04060f'; ctx.arc(center, center, inner, 0, Math.PI*2); ctx.fill();
+  // Fixed: Use CSS variable for donut hole
+  ctx.beginPath(); ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--donut-hole') || '#0c1428'; ctx.arc(center, center, inner, 0, Math.PI*2); ctx.fill();
 }
 
 function drawDispersion(canvasId, data) {
@@ -530,13 +593,11 @@ function drawDispersion(canvasId, data) {
   
   const rings = [{s:10, r:0.1, c:'#f5c443'}, {s:9, r:0.2, c:'#f5c443'}, {s:8, r:0.3, c:'#f43f5e'}, {s:7, r:0.4, c:'#f43f5e'}, {s:6, r:0.5, c:'#3b82f6'}, {s:5, r:0.6, c:'#3b82f6'}, {s:4, r:0.7, c:'#1a1a1a'}, {s:3, r:0.8, c:'#1a1a1a'}, {s:2, r:0.9, c:'#f5f5f5'}, {s:1, r:1.0, c:'#f5f5f5'}];
   
-  // Draw target background
   rings.slice().reverse().forEach(ring => {
     ctx.beginPath(); ctx.fillStyle = ring.c; ctx.arc(c, c, maxR*ring.r, 0, Math.PI*2); ctx.fill();
     ctx.strokeStyle = 'rgba(0,0,0,.2)'; ctx.lineWidth = 0.5; ctx.stroke();
   });
 
-  // Plot arrows (scattered within their respective rings)
   Object.keys(data).forEach(scoreStr => {
     const score = Number(scoreStr), count = data[scoreStr];
     const ring = rings.find(r => r.s === score); if(!ring) return;
@@ -553,7 +614,9 @@ function drawDispersion(canvasId, data) {
 
 async function renderStats() {
   app.innerHTML = `<h1 class="h3 fw-bold mb-3">Statistics</h1><div id="stats-wrap">Loading…</div>`;
-  const { data } = await sb.from('arrows').select('score');
+  // Fixed: Added inner join filter for user data isolation
+  const { data } = await sb.from('arrows').select('score, ends!inner(sessions!inner(user_id))').eq('ends.sessions.user_id', state.user.id);
+  
   if (!data?.length) { document.getElementById('stats-wrap').innerHTML = '<div class="empty-state">No arrows shot yet.</div>'; return; }
   
   const byScore = {}; data.forEach(a => { if(a.score != null) byScore[a.score] = (byScore[a.score]||0)+1; });
@@ -579,23 +642,38 @@ async function renderStats() {
   drawDispersion('dispersion', byScore);
 }
 
-/* TIMER TAB */
+/* =========================================
+   TIMER TAB
+   ========================================= */
 async function renderTimerTab() {
   app.innerHTML = `<h1 class="h3 fw-bold mb-3">Timer</h1><div class="row justify-content-center"><div class="col-md-6">${timerCardHTML(false)}</div></div>`;
   wireTimer();
 }
 
-/* BOOT */
+/* =========================================
+   BOOT SEQUENCE
+   ========================================= */
 (async function boot() {
   const isRecovery = window.location.hash.includes('type=recovery');
   if (isRecovery) state.recoveryMode = true;
+  
+  let initialized = false;
+  
   sb.auth.onAuthStateChange((event, session) => {
     if (event === 'PASSWORD_RECOVERY') { state.recoveryMode = true; state.user = session?.user; render(); }
     else if (event === 'SIGNED_OUT') { state.user = null; state.view = 'dashboard'; render(); }
-    else if (session?.user?.id !== state.user?.id) { state.user = session?.user; render(); }
+    else if (!initialized && session?.user) {
+      // Fixed: Prevent double render on load
+      initialized = true;
+      state.user = session.user; render();
+    }
   });
+  
   const { data: { session } } = await sb.auth.getSession();
-  state.user = session?.user; render();
+  if (!initialized) {
+    state.user = session?.user || null; 
+    render();
+  }
 })();
 </script>
 </body>
