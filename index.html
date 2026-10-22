@@ -2,610 +2,263 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="color-scheme" content="dark light">
-<meta name="theme-color" content="#04060f">
 <title>MyArcherLog</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script>
-  (function () {
-    try {
-      var stored = localStorage.getItem('mal-theme');
-      var prefers = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-      document.documentElement.dataset.theme = stored || prefers;
-    } catch (e) {}
-  })();
+  (function(){try{var t=localStorage.getItem('mal-theme');var p=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';document.documentElement.dataset.theme=t||p;}catch(e){}})();
 </script>
 <style>
-  :root, [data-theme="dark"] {
-    --bg: #04060f; --bg-2: #0a0f1e; --surface: #0c1428; --surface-2: #111c3a; --surface-3: #172347;
-    --border: rgba(96,165,250,.08); --border-2: rgba(96,165,250,.18);
-    --text: #e8edf7; --muted: #7d8baa; --muted-2: #556180;
-    --accent: #3b82f6; --accent-2: #60a5fa; --accent-3: #1d4ed8;
-    --red: #f43f5e; --green: #10b981; --gold: #f5c443;
-    --ring-10-bg: rgba(245,196,67,.28); --ring-10-fg: #ffe08a; --ring-10-bd: #f5c443;
-    --ring-89-bg: rgba(244,63,94,.22);  --ring-89-fg: #fda4af; --ring-89-bd: #f43f5e;
-    --ring-67-bg: rgba(59,130,246,.24); --ring-67-fg: #93c5fd; --ring-67-bd: #3b82f6;
-    --ring-low-bg: rgba(255,255,255,.03); --ring-low-fg: #64748b; --ring-low-bd: rgba(255,255,255,.12);
-    --ring-0-bg: rgba(244,63,94,.08); --ring-0-fg: #64748b; --ring-0-bd: rgba(244,63,94,.35);
-    --shadow: 0 4px 24px -8px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.03) inset;
-    --shadow-lg: 0 24px 48px -16px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.04) inset;
-    --glow: rgba(59,130,246,.5); --glow-soft: rgba(59,130,246,.15);
-    --overlay: rgba(4,6,15,.75);
-    --blob-1: rgba(59,130,246,.18); --blob-2: rgba(139,92,246,.12);
+  :root,[data-theme="dark"]{
+    --bg:#04060f;--bg-2:#0a0f1e;--surface:#0c1428;--surface-2:#111c3a;--surface-3:#172347;
+    --border:rgba(96,165,250,.08);--border-2:rgba(96,165,250,.18);
+    --text:#e8edf7;--muted:#7d8baa;--muted-2:#556180;
+    --accent:#3b82f6;--accent-2:#60a5fa;--accent-3:#1d4ed8;--red:#f43f5e;--green:#10b981;--gold:#f5c443;
+    --r10b:rgba(245,196,67,.28);--r10f:#ffe08a;--r10d:#f5c443;
+    --r89b:rgba(244,63,94,.22);--r89f:#fda4af;--r89d:#f43f5e;
+    --r67b:rgba(59,130,246,.24);--r67f:#93c5fd;--r67d:#3b82f6;
+    --rlowb:rgba(255,255,255,.03);--rlowf:#64748b;--rlowd:rgba(255,255,255,.12);
+    --r0b:rgba(244,63,94,.08);--r0f:#64748b;--r0d:rgba(244,63,94,.35);
+    --shadow:0 4px 24px -8px rgba(0,0,0,.5),0 1px 0 rgba(255,255,255,.03) inset;
+    --shadow-lg:0 24px 48px -16px rgba(0,0,0,.6);
+    --glow:rgba(59,130,246,.5);--glow-soft:rgba(59,130,246,.15);
+    --overlay:rgba(4,6,15,.85);--blob-1:rgba(59,130,246,.18);--blob-2:rgba(139,92,246,.12);
   }
-  [data-theme="light"] {
-    --bg: #eef3fb; --bg-2: #ffffff; --surface: #ffffff; --surface-2: #f5f8fe; --surface-3: #eaf0fb;
-    --border: rgba(15,23,42,.06); --border-2: rgba(15,23,42,.14);
-    --text: #0b1220; --muted: #5a6788; --muted-2: #8b96ae;
-    --accent: #2563eb; --accent-2: #3b82f6; --accent-3: #1d4ed8;
-    --red: #e11d48; --green: #059669; --gold: #b8860b;
-    --ring-10-bg: rgba(184,134,11,.14); --ring-10-fg: #713f12; --ring-10-bd: #b8860b;
-    --ring-89-bg: rgba(225,29,72,.09); --ring-89-fg: #9f1239; --ring-89-bd: #e11d48;
-    --ring-67-bg: rgba(37,99,235,.08); --ring-67-fg: #1e40af; --ring-67-bd: #2563eb;
-    --ring-low-bg: rgba(15,23,42,.03); --ring-low-fg: #64748b; --ring-low-bd: rgba(15,23,42,.14);
-    --ring-0-bg: rgba(225,29,72,.06); --ring-0-fg: #64748b; --ring-0-bd: rgba(225,29,72,.28);
-    --shadow: 0 4px 24px -8px rgba(15,23,42,.10), 0 1px 0 rgba(255,255,255,.8) inset;
-    --shadow-lg: 0 24px 48px -16px rgba(15,23,42,.14), 0 1px 0 rgba(255,255,255,.9) inset;
-    --glow: rgba(59,130,246,.28); --glow-soft: rgba(59,130,246,.08);
-    --overlay: rgba(238,243,251,.82);
-    --blob-1: rgba(59,130,246,.14); --blob-2: rgba(139,92,246,.10);
+  [data-theme="light"]{
+    --bg:#eef3fb;--bg-2:#fff;--surface:#fff;--surface-2:#f5f8fe;--surface-3:#eaf0fb;
+    --border:rgba(15,23,42,.06);--border-2:rgba(15,23,42,.14);
+    --text:#0b1220;--muted:#5a6788;--muted-2:#8b96ae;
+    --accent:#2563eb;--accent-2:#3b82f6;--accent-3:#1d4ed8;--red:#e11d48;--green:#059669;--gold:#b8860b;
+    --r10b:rgba(184,134,11,.14);--r10f:#713f12;--r10d:#b8860b;
+    --r89b:rgba(225,29,72,.09);--r89f:#9f1239;--r89d:#e11d48;
+    --r67b:rgba(37,99,235,.08);--r67f:#1e40af;--r67d:#2563eb;
+    --rlowb:rgba(15,23,42,.03);--rlowf:#64748b;--rlowd:rgba(15,23,42,.14);
+    --r0b:rgba(225,29,72,.06);--r0f:#64748b;--r0d:rgba(225,29,72,.28);
+    --shadow:0 4px 24px -8px rgba(15,23,42,.10);--shadow-lg:0 24px 48px -16px rgba(15,23,42,.14);
+    --glow:rgba(59,130,246,.28);--glow-soft:rgba(59,130,246,.08);
+    --overlay:rgba(238,243,251,.85);--blob-1:rgba(59,130,246,.14);--blob-2:rgba(139,92,246,.10);
   }
+  *{-webkit-tap-highlight-color:transparent;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;min-height:100vh;transition:background-color .3s,color .3s;-webkit-font-smoothing:antialiased}
+  body::before,body::after{content:'';position:fixed;pointer-events:none;z-index:-1;border-radius:50%;filter:blur(80px);animation:drift 24s ease-in-out infinite}
+  body::before{width:640px;height:640px;background:radial-gradient(circle,var(--blob-1) 0%,transparent 70%);top:-200px;left:-200px}
+  body::after{width:720px;height:720px;background:radial-gradient(circle,var(--blob-2) 0%,transparent 70%);bottom:-280px;right:-240px;animation-delay:-12s}
+  @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,-40px) scale(1.15)}}
+  
+  .navbar{background:var(--overlay)!important;backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid var(--border);padding:.85rem 0;position:sticky;top:0;z-index:100}
+  .navbar-brand{font-weight:900;font-size:1.2rem;letter-spacing:-.5px;background:linear-gradient(135deg,var(--accent-2) 0%,var(--accent) 60%,#8b5cf6 100%);background-size:200% 200%;-webkit-background-clip:text;background-clip:text;color:transparent!important;display:flex;align-items:center;gap:.65rem;animation:brand-shift 8s ease infinite}
+  @keyframes brand-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .navbar-brand::before{content:"";width:34px;height:34px;border-radius:10px;background:radial-gradient(circle at 50% 50%,#f5c443 0 18%,#f43f5e 18% 35%,#3b82f6 35% 52%,#1a1a1a 52% 69%,#fafafa 69% 100%);box-shadow:0 0 22px var(--glow),0 0 0 2px rgba(255,255,255,.06) inset;transition:transform .6s cubic-bezier(.34,1.56,.64,1)}
+  .navbar-brand:hover::before{transform:rotate(180deg) scale(1.05)}
+  .nav-link{color:var(--muted)!important;font-weight:600;font-size:.87rem;padding:.55rem .9rem!important;border-radius:10px;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+  .nav-link:hover{color:var(--text)!important;background:var(--surface-2)}
+  .nav-link.active{color:#fff!important;background:linear-gradient(135deg,var(--accent-2),var(--accent));font-weight:700;box-shadow:0 8px 24px -8px var(--glow)}
+  
+  .theme-toggle{background:var(--surface-2);border:1px solid var(--border-2);color:var(--text);width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.15rem;padding:0;cursor:pointer;transition:all .3s}
+  .theme-toggle:hover{transform:scale(1.08) rotate(15deg);border-color:var(--accent);box-shadow:0 0 24px var(--glow-soft)}
+  
+  .card{background:linear-gradient(160deg,var(--surface) 0%,var(--surface-2) 100%);border:1px solid var(--border)!important;border-radius:20px!important;box-shadow:var(--shadow);color:var(--text);transition:all .25s;position:relative;overflow:hidden}
+  h1,h2,h3,h4,h5,h6{color:var(--text);letter-spacing:-.03em;font-weight:800}
+  h1.h3{font-size:1.9rem;font-weight:900;letter-spacing:-.04em}
+  .text-muted{color:var(--muted)!important}
+  
+  .form-control,.form-select{background:var(--bg-2)!important;border:1px solid var(--border-2)!important;color:var(--text)!important;border-radius:12px;padding:.6rem .9rem;font-size:.95rem;transition:all .2s}
+  .form-control:focus,.form-select:focus{background:var(--bg-2)!important;border-color:var(--accent)!important;color:var(--text)!important;box-shadow:0 0 0 4px var(--glow-soft),0 0 0 1px var(--accent)!important}
+  .form-control.is-invalid{border-color:var(--red)!important;box-shadow:0 0 0 4px rgba(244,63,94,.2)!important;animation:shake .35s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+  .form-control::placeholder{color:var(--muted-2);opacity:1}
+  .form-label{color:var(--muted);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.4rem}
+  .form-select option{background:var(--surface);color:var(--text)}
+  
+  .btn{border-radius:12px;font-weight:700;transition:all .2s;position:relative;overflow:hidden;padding:.55rem 1rem}
+  .btn-primary{background:linear-gradient(135deg,var(--accent-2),var(--accent) 50%,var(--accent-3));background-size:200% 200%;animation:btn-shift 4s ease infinite;border:none;color:#fff;box-shadow:0 8px 24px -8px var(--glow)}
+  @keyframes btn-shift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .btn-primary:hover,.btn-primary:focus{color:#fff;transform:translateY(-2px);box-shadow:0 14px 32px -8px var(--glow)}
+  .btn-primary:disabled{opacity:.55;transform:none;animation:none;cursor:not-allowed}
+  .btn-outline-primary{color:var(--accent-2);border:1px solid var(--accent);background:transparent}
+  .btn-outline-primary:hover{background:var(--accent);color:#fff}
+  .btn-outline-secondary{color:var(--muted);border:1px solid var(--border-2);background:var(--surface-2)}
+  .btn-outline-secondary:hover{background:var(--surface-3);color:var(--text)}
+  .btn-outline-danger{color:var(--red);border:1px solid var(--red);background:transparent}
+  .btn-outline-danger:hover{background:var(--red);color:#fff}
+  .btn-success{background:linear-gradient(135deg,#34d399,var(--green));border:none;color:#fff}
+  .btn-success:hover{color:#fff;transform:translateY(-1px)}
+  .btn-warning{background:linear-gradient(135deg,#fbbf24,var(--gold));border:none;color:#1a1200}
+  .btn-warning:hover{color:#1a1200}
+  
+  .table{color:var(--text);--bs-table-bg:transparent;--bs-table-color:var(--text)}
+  .table thead th{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800;border-color:var(--border)!important;padding:.9rem .75rem;background:transparent}
+  .table tbody td{border-color:var(--border)!important;color:var(--text);padding:.85rem .75rem}
+  .table-striped>tbody>tr:nth-of-type(odd)>*{background:var(--surface-2)}
+  .table-bordered td,.table-bordered th{border-color:var(--border)!important}
+  
+  .stat-card{background:linear-gradient(160deg,var(--surface),var(--surface-2));border:1px solid var(--border);border-radius:20px;padding:1.35rem 1.4rem;position:relative;overflow:hidden;transition:all .3s;animation:fadeInUp .5s ease-out backwards}
+  .stat-card:nth-child(1){animation-delay:.05s}.stat-card:nth-child(2){animation-delay:.10s}.stat-card:nth-child(3){animation-delay:.15s}.stat-card:nth-child(4){animation-delay:.20s}
+  .stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-2),var(--accent),#8b5cf6);box-shadow:0 0 20px var(--glow)}
+  .stat-card:hover{transform:translateY(-4px);border-color:var(--border-2);box-shadow:var(--shadow-lg)}
+  .stat-label{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;font-weight:800}
+  .stat-value{font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:800;line-height:1;margin-top:.55rem;background:linear-gradient(135deg,var(--accent-2),var(--accent) 50%,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.04em}
+  
+  .timer-wrap{display:flex;flex-direction:column;align-items:center;padding:.5rem 0}
+  .timer-ring{position:relative;filter:drop-shadow(0 20px 30px rgba(0,0,0,.35))}
+  .timer-ring svg{width:100%;height:100%;display:block}
+  .target-rings{transition:opacity .4s}
+  .timer-ring.warning .target-rings{animation:tpw 1.4s ease-in-out infinite}
+  .timer-ring.done .target-rings{animation:tpd 1s ease-in-out infinite}
+  @keyframes tpw{0%,100%{filter:brightness(1)}50%{filter:brightness(1.15) saturate(1.3)}}
+  @keyframes tpd{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25) hue-rotate(-10deg) saturate(1.5)}}
+  .ring-track{fill:none;stroke:var(--border-2);stroke-width:6}
+  .ring-fill{fill:none;stroke:url(#timerGradient);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .25s linear,filter .3s;filter:drop-shadow(0 0 10px var(--glow))}
+  .timer-ring.warning .ring-fill{stroke:url(#warnGradient)}
+  .timer-ring.done .ring-fill{stroke:url(#doneGradient)}
+  .timer-inner{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;pointer-events:none}
+  .timer-display{font-family:'JetBrains Mono',monospace;font-size:2.4rem;font-weight:800;color:#fff;line-height:1;text-shadow:0 2px 8px rgba(0,0,0,.7);font-variant-numeric:tabular-nums}
+  .timer-ring.warning .timer-display{color:#fdba74}
+  .timer-ring.done .timer-display{color:#fda4af;animation:pulse .9s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.55}}
+  .timer-status{font-size:.68rem;text-transform:uppercase;letter-spacing:.15em;font-weight:800;margin-top:.5rem;color:rgba(255,255,255,.75);text-shadow:0 1px 4px rgba(0,0,0,.7)}
+  .timer-ring-lg{width:260px;height:260px}.timer-ring-sm{width:210px;height:210px}
+  .timer-ring-lg .timer-display{font-size:2.4rem}.timer-ring-sm .timer-display{font-size:1.9rem}
+  
+  .score-input{width:56px;background:var(--bg-2)!important;border:1.5px solid var(--border-2)!important;color:var(--text)!important;font-family:'JetBrains Mono',monospace;font-weight:800;font-size:.95rem;transition:all .15s;text-align:center;padding:.35rem;border-radius:10px}
+  .score-input:focus{transform:scale(1.1);z-index:2;position:relative;box-shadow:0 0 0 3px var(--glow-soft)}
+  .score-input[data-ring="x"],.score-input[data-ring="10"]{background:var(--r10b)!important;border-color:var(--r10d)!important;color:var(--r10f)!important;box-shadow:0 0 0 1px var(--r10d),0 0 12px var(--r10b)}
+  .score-input[data-ring="9"],.score-input[data-ring="8"]{background:var(--r89b)!important;border-color:var(--r89d)!important;color:var(--r89f)!important}
+  .score-input[data-ring="7"],.score-input[data-ring="6"]{background:var(--r67b)!important;border-color:var(--r67d)!important;color:var(--r67f)!important}
+  .score-input[data-ring="5"],.score-input[data-ring="4"],.score-input[data-ring="3"],.score-input[data-ring="2"],.score-input[data-ring="1"]{background:var(--rlowb)!important;border-color:var(--rlowd)!important;color:var(--rlowf)!important}
+  .score-input[data-ring="0"]{background:var(--r0b)!important;border-color:var(--r0d)!important;color:var(--r0f)!important}
+  .score-input::-webkit-outer-spin-button,.score-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .score-input[type=number]{-moz-appearance:textfield}
+  .end-row-active>td{background:var(--surface-3)!important}
+  .end-total{font-family:'JetBrains Mono',monospace;font-weight:800;color:var(--accent-2);font-size:1rem}
+  
+  .score-pad{display:none;background:linear-gradient(160deg,var(--surface),var(--surface-2));border:1px solid var(--border-2);border-radius:20px;padding:1rem;margin-top:1rem;box-shadow:var(--shadow-lg);z-index:50}
+  .score-pad.active{display:block}
+  .score-pad-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;gap:.5rem}
+  .score-pad-title{font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+  .score-pad-hint{font-size:.72rem;color:var(--muted-2)}
+  .score-pad-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.4rem}
+  @media(max-width:768px){
+    .score-pad.active{position:fixed;bottom:0;left:0;right:0;margin:0;border-radius:20px 20px 0 0;padding:1rem 1rem calc(1rem + env(safe-area-inset-bottom));z-index:200;border-bottom:none;animation:pad-up .25s;max-height:55vh;overflow-y:auto;overscroll-behavior:contain}
+    .score-pad-grid{grid-template-columns:repeat(4,1fr)}
+    body.pad-active{padding-bottom:320px}
+  }
+  @keyframes pad-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .pad-btn{padding:.85rem .3rem;border-radius:12px;border:1.5px solid var(--border-2);background:var(--surface-2);color:var(--text);font-family:'JetBrains Mono',monospace;font-weight:800;font-size:1rem;cursor:pointer;transition:all .12s;user-select:none}
+  .pad-btn:active{transform:scale(.94)}
+  .pad-btn:hover{border-color:var(--accent);background:var(--surface-3)}
+  .pad-10{border-color:var(--gold);color:var(--gold);background:rgba(245,196,67,.12)}
+  .pad-9,.pad-8{border-color:var(--red);color:var(--red);background:rgba(244,63,94,.1)}
+  .pad-7,.pad-6{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,.1)}
+  .pad-m{border-color:rgba(244,63,94,.4);color:var(--muted)}
+  .pad-clear{border-color:var(--border-2);color:var(--muted);font-size:.8rem}
+  
+  .badge{font-weight:800;letter-spacing:.04em;padding:.45em .75em;border-radius:8px;font-size:.72rem}
+  .badge-dirty{background:linear-gradient(135deg,#fbbf24,var(--gold));color:#1a1200;margin-left:.5rem;animation:bp 1.8s infinite}
+  @keyframes bp{0%,100%{box-shadow:0 0 0 0 rgba(245,196,67,.4)}50%{box-shadow:0 0 0 6px rgba(245,196,67,0)}}
+  
+  .alert-danger{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.35);color:var(--red);border-radius:12px}
+  .alert-success{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.35);color:var(--green);border-radius:12px}
+  
+  .empty-state{text-align:center;padding:3.5rem 1.5rem;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:.75rem}
+  .empty-state .icon{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--surface-2),var(--surface-3));display:flex;align-items:center;justify-content:center;font-size:1.8rem;border:1px solid var(--border-2);margin-bottom:.5rem}
+  .empty-state .title{font-weight:700;color:var(--text);font-size:1.05rem}
+  .empty-state .subtitle{font-size:.88rem;color:var(--muted)}
+  
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:fadeInUp .35s}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:5px}
+  details>summary{list-style:none;cursor:pointer;user-select:none}
+  details>summary::-webkit-details-marker{display:none}
+  
+  /* AUTH */
+  .auth-split{display:grid;grid-template-columns:1fr;max-width:980px;margin:2vh auto;background:linear-gradient(160deg,var(--surface),var(--surface-2));border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-lg)}
+  @media(min-width:992px){.auth-split{grid-template-columns:1fr 1fr;min-height:580px}}
+  .auth-hero{position:relative;padding:2rem 1.5rem;background:linear-gradient(160deg,rgba(37,99,235,.14),rgba(139,92,246,.10));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-bottom:1px solid var(--border)}
+  @media(min-width:992px){.auth-hero{padding:3rem 2.5rem;border-bottom:none;border-right:1px solid var(--border)}}
+  .auth-hero-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
+  .auth-target-wrap{width:150px;height:150px;margin-bottom:1.25rem;filter:drop-shadow(0 20px 40px rgba(0,0,0,.4))}
+  @media(min-width:992px){.auth-target-wrap{width:170px;height:170px;margin-bottom:1.5rem}}
+  .auth-target{width:100%;height:100%;display:block}
+  .auth-target-halo{animation:ah 3.5s ease-out infinite;transform-origin:100px 100px}
+  @keyframes ah{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.3);opacity:0}}
+  .auth-target-gold{animation:ag 2.5s ease-in-out infinite;transform-origin:100px 100px}
+  @keyframes ag{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.7);opacity:0}}
+  .auth-hero h1{font-size:1.5rem;font-weight:900;margin:0 0 .4rem;background:linear-gradient(135deg,var(--accent-2),var(--accent),#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;letter-spacing:-.03em}
+  .auth-hero p{color:var(--muted);font-size:.92rem;margin:0}
+  @media(max-width:991px){.auth-hero h1{font-size:1.25rem}.auth-hero p{font-size:.82rem}.auth-target-wrap{width:90px;height:90px;margin-bottom:.75rem}.auth-features{display:none!important}}
+  .auth-features{list-style:none;padding:0;margin:2rem 0 0;text-align:left;max-width:280px;width:100%;display:flex;flex-direction:column;gap:1rem}
+  .auth-features li{display:flex;align-items:flex-start;gap:.85rem}
+  .feature-icon{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid var(--border-2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+  .feature-title{font-weight:700;font-size:.88rem;color:var(--text);line-height:1.2}
+  .feature-sub{font-size:.78rem;color:var(--muted);margin-top:.15rem}
+  .auth-form-side{padding:2rem 1.5rem;display:flex;align-items:center;justify-content:center}
+  @media(min-width:992px){.auth-form-side{padding:2.5rem}}
+  .auth-form-wrap{width:100%;max-width:360px}
+  .auth-head{margin-bottom:1.5rem}
+  .auth-title{font-size:1.5rem;font-weight:800;margin:0 0 .35rem;letter-spacing:-.03em}
+  .auth-sub{color:var(--muted);font-size:.88rem;margin:0}
+  .auth-tabs{display:flex;gap:.4rem;margin-bottom:1.5rem;background:var(--surface-2);padding:.35rem;border-radius:12px;border:1px solid var(--border)}
+  .auth-tab{flex:1;padding:.6rem .8rem;background:transparent;color:var(--muted);border-radius:9px;text-align:center;text-decoration:none;font-weight:700;font-size:.85rem;transition:all .2s}
+  .auth-tab:hover{color:var(--text)}
+  .auth-tab.active{background:linear-gradient(135deg,var(--accent-2),var(--accent));color:#fff;box-shadow:0 6px 20px -6px var(--glow)}
+  .input-icon-wrap{position:relative}
+  .input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted-2);pointer-events:none;transition:color .2s;z-index:1}
+  .input-icon-wrap:focus-within .input-icon{color:var(--accent)}
+  .input-icon-wrap .form-control{padding-left:42px}
+  .input-icon-wrap.has-toggle .form-control{padding-right:44px}
+  .password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:32px;height:32px;border:none;background:transparent;color:var(--muted-2);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;z-index:1}
+  .password-toggle:hover{color:var(--accent);background:var(--surface-3)}
+  .strength{margin-top:.6rem;display:flex;flex-direction:column;gap:.35rem}
+  .strength-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+  .strength-bars span{height:3px;background:var(--surface-3);border-radius:2px;transition:background .3s}
+  .strength[data-score="1"] .strength-bars span:nth-child(1){background:var(--red)}
+  .strength[data-score="2"] .strength-bars span:nth-child(-n+2){background:#f97316}
+  .strength[data-score="3"] .strength-bars span:nth-child(-n+3){background:var(--gold)}
+  .strength[data-score="4"] .strength-bars span{background:var(--green)}
+  .strength-label{font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);transition:color .3s}
+  .strength[data-score="1"] .strength-label{color:var(--red)}
+  .strength[data-score="2"] .strength-label{color:#f97316}
+  .strength[data-score="3"] .strength-label{color:var(--gold)}
+  .strength[data-score="4"] .strength-label{color:var(--green)}
+  .strength-tip{font-size:.72rem;color:var(--muted-2);margin-top:.55rem;line-height:1.35}
+  .strength.d-none,.strength-tip.d-none{display:none!important}
+  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .auth-foot{margin-top:1.5rem;text-align:center;font-size:.8rem;color:var(--muted)}
+  .auth-foot a{color:var(--accent-2);text-decoration:none;font-weight:700}
+  .link-accent{color:var(--accent-2);text-decoration:none;font-weight:700}
+  .link-accent:hover{color:var(--accent);text-decoration:underline}
+  .reset-card{max-width:440px;margin:4vh auto;padding:2rem!important}
 
-  * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  html, body {
-    background: var(--bg); color: var(--text);
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    min-height: 100vh;
-    transition: background-color .3s ease, color .3s ease;
-    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-  }
-  body::before, body::after {
-    content: ''; position: fixed; pointer-events: none; z-index: -1;
-    border-radius: 50%; filter: blur(80px);
-    animation: drift 24s ease-in-out infinite;
-  }
-  body::before {
-    width: 640px; height: 640px;
-    background: radial-gradient(circle, var(--blob-1) 0%, transparent 70%);
-    top: -200px; left: -200px;
-  }
-  body::after {
-    width: 720px; height: 720px;
-    background: radial-gradient(circle, var(--blob-2) 0%, transparent 70%);
-    bottom: -280px; right: -240px;
-    animation-delay: -12s;
-  }
-  @keyframes drift {
-    0%, 100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(60px,-40px) scale(1.15); }
-  }
+  /* MOBILE BOTTOM NAV */
+  .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--overlay);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border);z-index:100;padding:.5rem 0 calc(.5rem + env(safe-area-inset-bottom))}
+  @media(max-width:768px){.bottom-nav{display:flex;justify-content:space-around}}
+  .bn-item{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--muted);font-size:1.2rem;gap:.15rem;transition:all .2s;flex:1}
+  .bn-item small{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+  .bn-item.active{color:var(--accent)}
+  .bn-item:hover{color:var(--text)}
 
-  .navbar {
-    background: var(--overlay) !important;
-    backdrop-filter: blur(20px) saturate(1.4); -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid var(--border);
-    padding: .85rem 0; position: sticky; top: 0; z-index: 100;
-  }
-  .navbar-brand {
-    font-weight: 900; font-size: 1.2rem; letter-spacing: -.5px;
-    background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent) 60%, #8b5cf6 100%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text; background-clip: text; color: transparent !important;
-    display: flex; align-items: center; gap: .65rem;
-    animation: brand-shift 8s ease infinite; position: relative;
-  }
-  @keyframes brand-shift {
-    0%,100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  .navbar-brand::before {
-    content: ""; width: 34px; height: 34px; border-radius: 10px;
-    background: radial-gradient(circle at 50% 50%, #f5c443 0 18%, #f43f5e 18% 35%, #3b82f6 35% 52%, #1a1a1a 52% 69%, #fafafa 69% 100%);
-    box-shadow: 0 0 22px var(--glow), 0 0 0 2px rgba(255,255,255,.06) inset;
-    transition: transform .6s cubic-bezier(.34,1.56,.64,1);
-  }
-  .navbar-brand:hover::before { transform: rotate(180deg) scale(1.05); }
-
-  .nav-link {
-    color: var(--muted) !important; font-weight: 600; font-size: .87rem;
-    padding: .55rem .9rem !important; border-radius: 10px;
-    transition: all .2s cubic-bezier(.4,0,.2,1);
-    display: flex; align-items: center; gap: .4rem;
-    position: relative; overflow: hidden;
-  }
-  .nav-link:hover { color: var(--text) !important; background: var(--surface-2); }
-  .nav-link.active {
-    color: #fff !important;
-    background: linear-gradient(135deg, var(--accent-2), var(--accent));
-    font-weight: 700;
-    box-shadow: 0 8px 24px -8px var(--glow), 0 1px 0 rgba(255,255,255,.15) inset;
-  }
-  .theme-toggle {
-    background: var(--surface-2); border: 1px solid var(--border-2); color: var(--text);
-    width: 42px; height: 42px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.15rem; padding: 0; cursor: pointer;
-    transition: all .3s cubic-bezier(.34,1.56,.64,1);
-  }
-  .theme-toggle:hover { transform: scale(1.08) rotate(15deg); border-color: var(--accent); box-shadow: 0 0 24px var(--glow-soft); }
-  .theme-toggle:active { transform: scale(.95); }
-
-  .card {
-    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
-    border: 1px solid var(--border) !important;
-    border-radius: 20px !important; box-shadow: var(--shadow);
-    color: var(--text); transition: all .25s cubic-bezier(.4,0,.2,1);
-    position: relative; overflow: hidden;
-  }
-  .card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
-    pointer-events: none;
-  }
-  [data-theme="light"] .card::before { background: linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent); }
-
-  h1, h2, h3, h4, h5, h6 { color: var(--text); letter-spacing: -.03em; font-weight: 800; }
-  h1.h3 { font-size: 1.9rem; font-weight: 900; letter-spacing: -.04em; }
-  .text-muted { color: var(--muted) !important; }
-
-  .form-control, .form-select {
-    background: var(--bg-2) !important;
-    border: 1px solid var(--border-2) !important;
-    color: var(--text) !important; border-radius: 12px;
-    padding: .6rem .9rem; font-size: .95rem;
-    transition: all .2s cubic-bezier(.4,0,.2,1);
-  }
-  .form-control:focus, .form-select:focus {
-    background: var(--bg-2) !important;
-    border-color: var(--accent) !important;
-    color: var(--text) !important;
-    box-shadow: 0 0 0 4px var(--glow-soft), 0 0 0 1px var(--accent) !important;
-    transform: translateY(-1px);
-  }
-  .form-control.is-invalid {
-    border-color: var(--red) !important;
-    box-shadow: 0 0 0 4px rgba(244,63,94,.2) !important;
-    animation: shake .35s ease-in-out;
-  }
-  @keyframes shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-4px); }
-    75% { transform: translateX(4px); }
-  }
-  .form-control::placeholder { color: var(--muted-2); opacity: 1; }
-  .form-label {
-    color: var(--muted); font-size: .72rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: .08em; margin-bottom: .4rem;
-  }
-  .form-select option { background: var(--surface); color: var(--text); }
-
-  .btn {
-    border-radius: 12px; font-weight: 700; letter-spacing: -.01em;
-    transition: all .2s cubic-bezier(.4,0,.2,1);
-    position: relative; overflow: hidden; padding: .55rem 1rem;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent) 50%, var(--accent-3) 100%);
-    background-size: 200% 200%; animation: btn-shift 4s ease infinite;
-    border: none; color: #fff;
-    box-shadow: 0 8px 24px -8px var(--glow), 0 1px 0 rgba(255,255,255,.2) inset;
-  }
-  @keyframes btn-shift {
-    0%,100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  .btn-primary::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.25) 50%, transparent 70%);
-    transform: translateX(-100%); transition: transform .7s ease; pointer-events: none;
-  }
-  .btn-primary:hover::after { transform: translateX(100%); }
-  .btn-primary:hover, .btn-primary:focus {
-    color: #fff; transform: translateY(-2px);
-    box-shadow: 0 14px 32px -8px var(--glow), 0 1px 0 rgba(255,255,255,.25) inset;
-  }
-  .btn-primary:active { transform: translateY(0); }
-  .btn-primary:disabled { opacity: .55; transform: none; animation: none; cursor: not-allowed; }
-  .btn-primary:disabled::after { display: none; }
-  .btn-outline-primary { color: var(--accent-2); border: 1px solid var(--accent); background: transparent; }
-  .btn-outline-primary:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-1px); box-shadow: 0 8px 20px -8px var(--glow); }
-  .btn-outline-secondary { color: var(--muted); border: 1px solid var(--border-2); background: var(--surface-2); }
-  .btn-outline-secondary:hover { background: var(--surface-3); color: var(--text); border-color: var(--border-2); transform: translateY(-1px); }
-  .btn-outline-danger { color: var(--red); border: 1px solid var(--red); background: transparent; }
-  .btn-outline-danger:hover { background: var(--red); color: #fff; transform: translateY(-1px); }
-  .btn-success { background: linear-gradient(135deg, #34d399, var(--green)); border: none; color: #fff; box-shadow: 0 6px 16px -6px rgba(16,185,129,.5); }
-  .btn-success:hover { transform: translateY(-1px); box-shadow: 0 10px 24px -6px rgba(16,185,129,.6); color: #fff; }
-  .btn-warning { background: linear-gradient(135deg, #fbbf24, var(--gold)); border: none; color: #1a1200; box-shadow: 0 6px 16px -6px rgba(245,196,67,.5); }
-  .btn-warning:hover { transform: translateY(-1px); color: #1a1200; }
-
-  .table { color: var(--text); --bs-table-bg: transparent; --bs-table-color: var(--text); }
-  .table thead th {
-    color: var(--muted); font-size: .7rem; text-transform: uppercase;
-    letter-spacing: .1em; font-weight: 800;
-    border-color: var(--border) !important; padding: .9rem .75rem; background: transparent;
-  }
-  .table tbody td {
-    border-color: var(--border) !important; color: var(--text);
-    padding: .85rem .75rem; transition: background-color .15s ease;
-  }
-  .table-striped > tbody > tr:nth-of-type(odd) > * { background: var(--surface-2); }
-  .table tbody tr { transition: background-color .15s; }
-  .table tbody tr:hover > * { background: var(--surface-3) !important; }
-  .table-bordered { border-color: var(--border) !important; }
-  .table-bordered td, .table-bordered th { border-color: var(--border) !important; }
-
-  .stat-card {
-    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
-    border: 1px solid var(--border); border-radius: 20px;
-    padding: 1.35rem 1.4rem; position: relative; overflow: hidden;
-    transition: all .3s cubic-bezier(.4,0,.2,1);
-    animation: fadeInUp .5s ease-out backwards;
-  }
-  .stat-card:nth-child(1) { animation-delay: .05s; }
-  .stat-card:nth-child(2) { animation-delay: .10s; }
-  .stat-card:nth-child(3) { animation-delay: .15s; }
-  .stat-card:nth-child(4) { animation-delay: .20s; }
-  .stat-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--accent-2), var(--accent), #8b5cf6);
-    box-shadow: 0 0 20px var(--glow);
-  }
-  .stat-card::after {
-    content: ''; position: absolute; bottom: -40%; right: -20%;
-    width: 160px; height: 160px; border-radius: 50%;
-    background: radial-gradient(circle, var(--glow-soft) 0%, transparent 70%);
-    opacity: .6; transition: opacity .3s; pointer-events: none;
-  }
-  .stat-card:hover { transform: translateY(-4px); border-color: var(--border-2); box-shadow: var(--shadow-lg), 0 0 0 1px var(--glow-soft); }
-  .stat-card:hover::after { opacity: 1; }
-  .stat-label { color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; }
-  .stat-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.4rem; font-weight: 800; line-height: 1; margin-top: .55rem;
-    background: linear-gradient(135deg, var(--accent-2), var(--accent) 50%, #8b5cf6);
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    letter-spacing: -.04em;
-  }
-
-  .timer-wrap { display: flex; flex-direction: column; align-items: center; padding: .5rem 0; }
-  .timer-ring { position: relative; filter: drop-shadow(0 20px 30px rgba(0,0,0,.35)); }
-  [data-theme="light"] .timer-ring { filter: drop-shadow(0 16px 24px rgba(15,23,42,.12)); }
-  .timer-ring svg { width: 100%; height: 100%; display: block; }
-  .target-rings { transition: opacity .4s ease; }
-  .timer-ring.warning .target-rings { animation: target-pulse-warn 1.4s ease-in-out infinite; }
-  .timer-ring.done .target-rings { animation: target-pulse-done 1s ease-in-out infinite; }
-  @keyframes target-pulse-warn {
-    0%,100% { filter: brightness(1) saturate(1); }
-    50% { filter: brightness(1.15) saturate(1.3); }
-  }
-  @keyframes target-pulse-done {
-    0%,100% { filter: brightness(1) saturate(1); }
-    50% { filter: brightness(1.25) hue-rotate(-10deg) saturate(1.5); }
-  }
-  .ring-track { fill: none; stroke: var(--border-2); stroke-width: 6; }
-  .ring-fill {
-    fill: none; stroke: url(#timerGradient); stroke-width: 6; stroke-linecap: round;
-    transition: stroke-dashoffset .25s linear, filter .3s;
-    filter: drop-shadow(0 0 10px var(--glow));
-  }
-  .timer-ring.warning .ring-fill { stroke: url(#warnGradient); filter: drop-shadow(0 0 14px rgba(249,115,22,.7)); }
-  .timer-ring.done .ring-fill { stroke: url(#doneGradient); filter: drop-shadow(0 0 16px rgba(244,63,94,.8)); }
-  .timer-inner {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    pointer-events: none;
-  }
-  .timer-display {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 2.4rem; font-weight: 800; color: #fff;
-    letter-spacing: -.04em; line-height: 1;
-    text-shadow: 0 2px 8px rgba(0,0,0,.7), 0 0 24px rgba(0,0,0,.5);
-    font-variant-numeric: tabular-nums;
-  }
-  .timer-ring.warning .timer-display { color: #fdba74; }
-  .timer-ring.done .timer-display { color: #fda4af; animation: pulse .9s ease-in-out infinite; }
-  @keyframes pulse { 50% { opacity: .55; } }
-  .timer-status {
-    font-size: .68rem; text-transform: uppercase; letter-spacing: .15em;
-    font-weight: 800; margin-top: .5rem; color: rgba(255,255,255,.75);
-    text-shadow: 0 1px 4px rgba(0,0,0,.7);
-  }
-  .timer-ring-lg { width: 260px; height: 260px; }
-  .timer-ring-sm { width: 210px; height: 210px; }
-  .timer-ring-lg .timer-display { font-size: 2.4rem; }
-  .timer-ring-sm .timer-display { font-size: 1.9rem; }
-
-  .score-input {
-    width: 56px;
-    background: var(--bg-2) !important;
-    border: 1.5px solid var(--border-2) !important;
-    color: var(--text) !important;
-    font-family: 'JetBrains Mono', monospace; font-weight: 800;
-    font-size: .95rem; transition: all .15s cubic-bezier(.4,0,.2,1);
-    text-align: center; padding: .35rem; border-radius: 10px;
-  }
-  .score-input:focus {
-    transform: scale(1.1); z-index: 2; position: relative;
-    box-shadow: 0 0 0 3px var(--glow-soft), 0 6px 16px -4px rgba(0,0,0,.3);
-  }
-  .score-input[data-ring="x"], .score-input[data-ring="10"] {
-    background: var(--ring-10-bg) !important; border-color: var(--ring-10-bd) !important;
-    color: var(--ring-10-fg) !important; box-shadow: 0 0 0 1px var(--ring-10-bd), 0 0 12px var(--ring-10-bg);
-  }
-  .score-input[data-ring="9"], .score-input[data-ring="8"] {
-    background: var(--ring-89-bg) !important; border-color: var(--ring-89-bd) !important; color: var(--ring-89-fg) !important;
-  }
-  .score-input[data-ring="7"], .score-input[data-ring="6"] {
-    background: var(--ring-67-bg) !important; border-color: var(--ring-67-bd) !important; color: var(--ring-67-fg) !important;
-  }
-  .score-input[data-ring="5"], .score-input[data-ring="4"], .score-input[data-ring="3"],
-  .score-input[data-ring="2"], .score-input[data-ring="1"] {
-    background: var(--ring-low-bg) !important; border-color: var(--ring-low-bd) !important; color: var(--ring-low-fg) !important;
-  }
-  .score-input[data-ring="0"] {
-    background: var(--ring-0-bg) !important; border-color: var(--ring-0-bd) !important; color: var(--ring-0-fg) !important;
-  }
-  .score-input::-webkit-outer-spin-button, .score-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-  .score-input[type=number] { -moz-appearance: textfield; }
-  .end-row-active > td { background: var(--surface-3) !important; }
-  .end-total { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: var(--accent-2); font-size: 1rem; }
-
-  .score-pad {
-    display: none;
-    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
-    border: 1px solid var(--border-2);
-    border-radius: 20px;
-    padding: 1rem;
-    margin-top: 1rem;
-    box-shadow: var(--shadow-lg);
-    z-index: 50;
-  }
-  .score-pad.active { display: block; }
-  .score-pad-head {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: .75rem; gap: .5rem;
-  }
-  .score-pad-title {
-    font-size: .72rem; font-weight: 800; color: var(--muted);
-    text-transform: uppercase; letter-spacing: .1em;
-  }
-  .score-pad-hint { font-size: .72rem; color: var(--muted-2); }
-  .score-pad-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: .4rem;
-  }
-  @media (max-width: 768px) {
-    .score-pad.active {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      margin: 0;
-      border-radius: 20px 20px 0 0;
-      padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
-      z-index: 200;
-      border-bottom: none;
-      animation: pad-up .25s cubic-bezier(.4,0,.2,1);
-      max-height: 55vh;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-    }
-    .score-pad-grid { grid-template-columns: repeat(4, 1fr); }
-    body.pad-active { padding-bottom: 320px; }
-  }
-  @keyframes pad-up {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-  .pad-btn {
-    padding: .85rem .3rem;
-    border-radius: 12px;
-    border: 1.5px solid var(--border-2);
-    background: var(--surface-2);
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 800; font-size: 1rem;
-    cursor: pointer; transition: all .12s;
-    user-select: none;
-  }
-  .pad-btn:active { transform: scale(.94); }
-  .pad-btn:hover { border-color: var(--accent); background: var(--surface-3); }
-  .pad-10 { border-color: var(--gold); color: var(--gold); background: rgba(245,196,67,.12); }
-  .pad-9, .pad-8 { border-color: var(--red); color: var(--red); background: rgba(244,63,94,.1); }
-  .pad-7, .pad-6 { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,.1); }
-  .pad-m { border-color: rgba(244,63,94,.4); color: var(--muted); }
-  .pad-clear { border-color: var(--border-2); color: var(--muted); font-size: .8rem; }
-
-  .badge { font-weight: 800; letter-spacing: .04em; padding: .45em .75em; border-radius: 8px; font-size: .72rem; }
-  .badge-dirty {
-    background: linear-gradient(135deg, #fbbf24, var(--gold));
-    color: #1a1200; margin-left: .5rem;
-    animation: badge-pulse 1.8s ease-in-out infinite;
-  }
-  @keyframes badge-pulse {
-    0%,100% { box-shadow: 0 0 0 0 rgba(245,196,67,.4); }
-    50% { box-shadow: 0 0 0 6px rgba(245,196,67,0); }
-  }
-
-  code { background: var(--surface-3); color: var(--accent-2); padding: .15em .4em; border-radius: 5px; font-family: 'JetBrains Mono', monospace; font-size: .85em; }
-  .alert-danger { background: rgba(244,63,94,.1); border: 1px solid rgba(244,63,94,.35); color: var(--red); border-radius: 12px; }
-  .alert-success { background: rgba(16,185,129,.1); border: 1px solid rgba(16,185,129,.35); color: var(--green); border-radius: 12px; }
-  hr { border-color: var(--border); opacity: 1; }
-
-  .empty-state {
-    text-align: center; padding: 3.5rem 1.5rem; color: var(--muted);
-    display: flex; flex-direction: column; align-items: center; gap: .75rem;
-  }
-  .empty-state .icon {
-    width: 64px; height: 64px; border-radius: 16px;
-    background: linear-gradient(135deg, var(--surface-2), var(--surface-3));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem; border: 1px solid var(--border-2); margin-bottom: .5rem;
-  }
-  .empty-state .title { font-weight: 700; color: var(--text); font-size: 1.05rem; }
-  .empty-state .subtitle { font-size: .88rem; color: var(--muted); }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .fade-in { animation: fadeInUp .35s cubic-bezier(.4,0,.2,1); }
-
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 5px; border: 2px solid var(--bg); }
-  ::-webkit-scrollbar-thumb:hover { background: var(--muted-2); }
-
-  details > summary { list-style: none; cursor: pointer; user-select: none; }
-  details > summary::-webkit-details-marker { display: none; }
-  details[open] > summary { margin-bottom: .75rem; }
-
-  .auth-split {
-    display: grid; grid-template-columns: 1fr; max-width: 980px; margin: 2vh auto;
-    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-2) 100%);
-    border: 1px solid var(--border); border-radius: 24px; overflow: hidden;
-    box-shadow: var(--shadow-lg); position: relative;
-  }
-  @media (min-width: 992px) { .auth-split { grid-template-columns: 1fr 1fr; min-height: 580px; } }
-  .auth-hero {
-    position: relative; padding: 2rem 1.5rem;
-    background: linear-gradient(160deg, rgba(37,99,235,.14), rgba(139,92,246,.10));
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; overflow: hidden; border-bottom: 1px solid var(--border);
-  }
-  @media (min-width: 992px) { .auth-hero { padding: 3rem 2.5rem; border-bottom: none; border-right: 1px solid var(--border); } }
-  .auth-hero::before {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(circle at 25% 20%, rgba(59,130,246,.18) 0%, transparent 55%),
-                radial-gradient(circle at 75% 80%, rgba(139,92,246,.18) 0%, transparent 55%);
-    pointer-events: none;
-  }
-  .auth-hero-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; }
-  .auth-target-wrap { width: 150px; height: 150px; margin-bottom: 1.25rem; filter: drop-shadow(0 20px 40px rgba(0,0,0,.4)); }
-  @media (min-width: 992px) { .auth-target-wrap { width: 170px; height: 170px; margin-bottom: 1.5rem; } }
-  .auth-target { width: 100%; height: 100%; display: block; }
-  .auth-target-halo { animation: auth-halo 3.5s ease-out infinite; transform-origin: 100px 100px; }
-  @keyframes auth-halo { 0% { transform: scale(.9); opacity: .8; } 100% { transform: scale(1.3); opacity: 0; } }
-  .auth-target-gold { animation: auth-gold 2.5s ease-in-out infinite; transform-origin: 100px 100px; }
-  @keyframes auth-gold { 0%,100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.7); opacity: 0; } }
-  .auth-hero h1 {
-    font-size: 1.5rem; font-weight: 900; margin: 0 0 .4rem;
-    background: linear-gradient(135deg, var(--accent-2), var(--accent), #8b5cf6);
-    -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -.03em;
-  }
-  .auth-hero p { color: var(--muted); font-size: .92rem; margin: 0; }
-  @media (max-width: 991px) {
-    .auth-hero h1 { font-size: 1.25rem; }
-    .auth-hero p { font-size: .82rem; }
-    .auth-target-wrap { width: 90px; height: 90px; margin-bottom: .75rem; }
-    .auth-features { display: none !important; }
-  }
-  .auth-features {
-    list-style: none; padding: 0; margin: 2rem 0 0;
-    text-align: left; max-width: 280px; width: 100%;
-    display: flex; flex-direction: column; gap: 1rem;
-  }
-  .auth-features li { display: flex; align-items: flex-start; gap: .85rem; }
-  .feature-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: rgba(255,255,255,.08); border: 1px solid var(--border-2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem; flex-shrink: 0;
-  }
-  [data-theme="light"] .feature-icon { background: rgba(37,99,235,.06); }
-  .feature-title { font-weight: 700; font-size: .88rem; color: var(--text); line-height: 1.2; }
-  .feature-sub { font-size: .78rem; color: var(--muted); margin-top: .15rem; }
-  .auth-form-side { padding: 2rem 1.5rem; display: flex; align-items: center; justify-content: center; }
-  @media (min-width: 992px) { .auth-form-side { padding: 2.5rem; } }
-  .auth-form-wrap { width: 100%; max-width: 360px; }
-  .auth-head { margin-bottom: 1.5rem; }
-  .auth-title { font-size: 1.5rem; font-weight: 800; margin: 0 0 .35rem; letter-spacing: -.03em; }
-  .auth-sub { color: var(--muted); font-size: .88rem; margin: 0; }
-  .auth-tabs {
-    display: flex; gap: .4rem; margin-bottom: 1.5rem;
-    background: var(--surface-2); padding: .35rem;
-    border-radius: 12px; border: 1px solid var(--border);
-  }
-  .auth-tab {
-    flex: 1; padding: .6rem .8rem; background: transparent; color: var(--muted);
-    border-radius: 9px; text-align: center; text-decoration: none;
-    font-weight: 700; font-size: .85rem; transition: all .2s cubic-bezier(.4,0,.2,1);
-  }
-  .auth-tab:hover { color: var(--text); }
-  .auth-tab.active {
-    background: linear-gradient(135deg, var(--accent-2), var(--accent));
-    color: #fff; box-shadow: 0 6px 20px -6px var(--glow), 0 1px 0 rgba(255,255,255,.15) inset;
-  }
-  .input-icon-wrap { position: relative; }
-  .input-icon {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    width: 18px; height: 18px; color: var(--muted-2);
-    pointer-events: none; transition: color .2s; z-index: 1;
-  }
-  .input-icon-wrap:focus-within .input-icon { color: var(--accent); }
-  .input-icon-wrap .form-control { padding-left: 42px; }
-  .input-icon-wrap.has-toggle .form-control { padding-right: 44px; }
-  .password-toggle {
-    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-    width: 32px; height: 32px; border: none; background: transparent;
-    color: var(--muted-2); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all .15s; z-index: 1;
-  }
-  .password-toggle:hover { color: var(--accent); background: var(--surface-3); }
-  .strength { margin-top: .6rem; display: flex; flex-direction: column; gap: .35rem; }
-  .strength-bars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-  .strength-bars span { height: 3px; background: var(--surface-3); border-radius: 2px; transition: background .3s; }
-  .strength[data-score="1"] .strength-bars span:nth-child(1) { background: var(--red); }
-  .strength[data-score="2"] .strength-bars span:nth-child(-n+2) { background: #f97316; }
-  .strength[data-score="3"] .strength-bars span:nth-child(-n+3) { background: var(--gold); }
-  .strength[data-score="4"] .strength-bars span { background: var(--green); }
-  .strength-label {
-    font-size: .68rem; font-weight: 800; letter-spacing: .06em;
-    text-transform: uppercase; color: var(--muted); transition: color .3s;
-  }
-  .strength[data-score="1"] .strength-label { color: var(--red); }
-  .strength[data-score="2"] .strength-label { color: #f97316; }
-  .strength[data-score="3"] .strength-label { color: var(--gold); }
-  .strength[data-score="4"] .strength-label { color: var(--green); }
-  .strength-tip { font-size: .72rem; color: var(--muted-2); margin-top: .55rem; line-height: 1.35; }
-  .strength.d-none, .strength-tip.d-none { display: none !important; }
-  .spinner {
-    display: inline-block; width: 14px; height: 14px;
-    border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
-    border-radius: 50%; animation: spin .6s linear infinite;
-    vertical-align: middle; margin-right: 6px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .auth-foot { margin-top: 1.5rem; text-align: center; font-size: .8rem; color: var(--muted); }
-  .auth-foot a { color: var(--accent-2); text-decoration: none; font-weight: 700; }
-  .auth-foot a:hover { text-decoration: underline; }
-  .link-accent { color: var(--accent-2); text-decoration: none; font-weight: 700; }
-  .link-accent:hover { color: var(--accent); text-decoration: underline; }
-  .reset-card { max-width: 440px; margin: 4vh auto; padding: 2rem !important; }
-
-  @media (max-width: 768px) {
-    body::before, body::after { width: 360px; height: 360px; filter: blur(60px); }
-    .navbar .container { flex-wrap: wrap; }
-    .navbar-brand { width: 100%; justify-content: center; margin-bottom: .5rem; }
-    #nav-links { flex-wrap: wrap !important; justify-content: center !important; width: 100%; gap: .2rem !important; }
-    .nav-link { padding: .4rem .65rem !important; font-size: .78rem !important; }
-    .score-input { width: 40px; font-size: .8rem; padding: .2rem .1rem; }
-    .table-bordered td, .table-bordered th { padding: .3rem .2rem; font-size: .82rem; }
-    .end-total { font-size: .85rem; }
-    .card { padding: .9rem !important; }
-    .card.p-3 { padding: .9rem !important; }
-    .timer-ring-lg { width: 220px; height: 220px; }
-    .timer-ring-lg .timer-display { font-size: 2rem; }
-    .timer-ring-sm { width: 180px; height: 180px; }
-    .stat-value { font-size: 1.9rem; }
-    h1.h3 { font-size: 1.55rem; }
-    .auth-wrap { margin-top: 2vh; }
-    .auth-wrap .card { padding: 1.5rem !important; }
+  @media(max-width:768px){
+    body::before,body::after{width:360px;height:360px;filter:blur(60px)}
+    .navbar .container{flex-wrap:nowrap}
+    .navbar-brand{font-size:1.05rem}
+    #nav-links{display:none!important} /* Hide top nav links on mobile */
+    .score-input{width:40px;font-size:.8rem;padding:.2rem .1rem}
+    .table-bordered td,.table-bordered th{padding:.3rem .2rem;font-size:.82rem}
+    .card.p-3{padding:.9rem!important}
+    .timer-ring-lg{width:220px;height:220px}
+    .timer-ring-sm{width:180px;height:180px}
+    .stat-value{font-size:1.9rem}
+    h1.h3{font-size:1.55rem}
+    #app{padding-bottom:80px} /* Space for bottom nav */
+    .theme-toggle{display:none} /* Theme toggle is hidden on mobile if you want a pure app feel, but I'll keep it in navbar */
   }
 </style>
 </head>
@@ -615,7 +268,7 @@
   <div class="container">
     <a class="navbar-brand" href="#" id="nav-brand">MyArcherLog</a>
     <div class="navbar-nav ms-auto align-items-center flex-row gap-2">
-      <button class="theme-toggle" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+      <button class="theme-toggle" id="theme-toggle" title="Toggle theme">🌙</button>
       <div id="nav-links" class="d-flex align-items-center gap-1"></div>
     </div>
   </div>
@@ -623,17 +276,19 @@
 
 <main id="app" class="container py-4"></main>
 
+<nav class="bottom-nav" id="bottom-nav">
+  <a href="#" data-view="dashboard" class="bn-item active"><span>◈</span><small>Home</small></a>
+  <a href="#" data-view="sessions" class="bn-item"><span>◎</span><small>Log</small></a>
+  <a href="#" data-view="equipment" class="bn-item"><span>⌁</span><small>Gear</small></a>
+  <a href="#" data-view="stats" class="bn-item"><span>▤</span><small>Stats</small></a>
+  <a href="#" data-view="timer" class="bn-item"><span>◔</span><small>Timer</small></a>
+</nav>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
-    <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#3b82f6"/>
-    </linearGradient>
-    <linearGradient id="warnGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f97316"/>
-    </linearGradient>
-    <linearGradient id="doneGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f43f5e"/><stop offset="100%" stop-color="#991b1b"/>
-    </linearGradient>
+    <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#60a5fa"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>
+    <linearGradient id="warnGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f97316"/></linearGradient>
+    <linearGradient id="doneGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f43f5e"/><stop offset="100%" stop-color="#991b1b"/></linearGradient>
   </defs>
 </svg>
 
@@ -642,44 +297,35 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 const SUPABASE_URL = 'https://gkrqeccpccciywnjkcpn.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_dUzZ5nFruEiQ_hVSvUF3Rg_0AGEqg-e';
-
-// ─────────────────────────────────────────────────────────────
-// ↓ PASTE YOURS: Google Apps Script Web App URL
-// Deploy → Manage deployments → Web app → copy /exec URL
-// ─────────────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_URL_HERE';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwFqHG32IQ6Ltlfwaaz5tSEAlIZugtkIOjgZNjFqJnXBP_eaOlBxAwnRw3ViDlLcGzP/exec';
 
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
-
 const app = document.getElementById('app');
 const navLinks = document.getElementById('nav-links');
+const bottomNav = document.getElementById('bottom-nav');
 const state = { user: null, view: 'dashboard', sessionId: null, recoveryMode: false, dirty: false };
 let currentBeforeUnloadHandler = null;
 let currentPadInput = null;
 
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
-  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const alertBox = (m, t='danger') => `<div class="alert alert-${t} py-2 mb-0 fade-in">${esc(m)}</div>`;
 const fmtMMSS = s => `${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.round(s%60)).padStart(2,'0')}`;
 
-/* ============== THEME ============== */
+/* THEME */
 const themeToggleBtn = document.getElementById('theme-toggle');
 function updateThemeIcon() {
   const isDark = document.documentElement.dataset.theme === 'dark';
   themeToggleBtn.textContent = isDark ? '☀️' : '🌙';
-  themeToggleBtn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
 }
 function toggleTheme() {
   const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.dataset.theme = next;
   try { localStorage.setItem('mal-theme', next); } catch {}
   updateThemeIcon();
-  if (state.user && !state.recoveryMode &&
-      (state.view === 'stats' || state.view === 'dashboard')) render();
+  if (state.user && !state.recoveryMode && (state.view === 'stats' || state.view === 'dashboard')) render();
 }
 themeToggleBtn.addEventListener('click', toggleTheme);
 updateThemeIcon();
-
 document.getElementById('nav-brand').addEventListener('click', e => {
   e.preventDefault();
   if (state.recoveryMode) return;
@@ -690,11 +336,9 @@ document.getElementById('nav-brand').addEventListener('click', e => {
   if (state.user) { state.view = 'dashboard'; render(); }
 });
 
-/* ============== TIMER ============== */
+/* TIMER */
 const timer = { total: 120, remaining: 120, running: false, warned: false, tickId: null, lastTick: 0 };
-const RING_R = 112;
-const RING_C = 2 * Math.PI * RING_R;
-
+const RING_R = 112, RING_C = 2 * Math.PI * RING_R;
 let audioCtx = null;
 function ensureAudio() {
   try {
@@ -704,8 +348,7 @@ function ensureAudio() {
 }
 function beep(freq = 880, duration = 150, volume = 0.15) {
   if (!audioCtx) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
+  const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
   osc.connect(gain); gain.connect(audioCtx.destination);
   osc.frequency.value = freq;
   gain.gain.setValueAtTime(volume, audioCtx.currentTime);
@@ -738,15 +381,11 @@ function pauseTimer() {
   if (timer.tickId) { clearInterval(timer.tickId); timer.tickId = null; }
   updateTimerDisplay();
 }
-function resetTimer() {
-  pauseTimer(); timer.remaining = timer.total; timer.warned = false;
-  updateTimerDisplay();
-}
+function resetTimer() { pauseTimer(); timer.remaining = timer.total; timer.warned = false; updateTimerDisplay(); }
 function setTimer(total) {
   if (!isFinite(total) || total <= 0 || total > 3600) return false;
   pauseTimer(); timer.total = total; timer.remaining = total; timer.warned = false;
-  updateTimerDisplay();
-  return true;
+  updateTimerDisplay(); return true;
 }
 function updateTimerDisplay() {
   const disp = document.getElementById('timer-display');
@@ -758,22 +397,17 @@ function updateTimerDisplay() {
   const pct = timer.total > 0 ? timer.remaining / timer.total : 0;
   fill.style.strokeDasharray = RING_C;
   fill.style.strokeDashoffset = RING_C * (1 - pct);
-  const warn = timer.remaining <= 30 && timer.remaining > 0;
-  const done = timer.remaining <= 0;
-  ringWrap.classList.toggle('warning', warn);
-  ringWrap.classList.toggle('done', done);
+  ringWrap.classList.toggle('warning', timer.remaining <= 30 && timer.remaining > 0);
+  ringWrap.classList.toggle('done', timer.remaining <= 0);
   if (status) {
-    status.textContent = timer.running ? 'Running'
-                      : done ? 'Complete'
-                      : timer.remaining < timer.total ? 'Paused'
-                      : 'Ready';
+    status.textContent = timer.running ? 'Running' : (timer.remaining <= 0 ? 'Complete' : (timer.remaining < timer.total ? 'Paused' : 'Ready'));
   }
 }
 function timerCardHTML(compact = false) {
   return `
     <div class="card p-3 ${compact ? 'mb-3' : ''}">
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <h2 class="h6 mb-0" style="font-weight:800;letter-spacing:-.02em">🎯 Shooting Timer</h2>
+        <h2 class="h6 mb-0" style="font-weight:800">🎯 Shooting Timer</h2>
         <span class="badge bg-secondary" id="timer-status">Ready</span>
       </div>
       <div class="timer-wrap my-2">
@@ -789,8 +423,7 @@ function timerCardHTML(compact = false) {
             <circle cx="130" cy="130" r="46" fill="rgba(5,10,24,0.55)"/>
             <circle cx="130" cy="130" r="46" fill="none" stroke="rgba(245,196,67,.4)" stroke-width="1"/>
             <circle class="ring-track" cx="130" cy="130" r="${RING_R}"/>
-            <circle class="ring-fill" id="timer-ring-fill" cx="130" cy="130" r="${RING_R}"
-                    transform="rotate(-90 130 130)"/>
+            <circle class="ring-fill" id="timer-ring-fill" cx="130" cy="130" r="${RING_R}" transform="rotate(-90 130 130)"/>
           </svg>
           <div class="timer-inner">
             <div class="timer-display" id="timer-display">${fmtMMSS(timer.remaining)}</div>
@@ -809,8 +442,7 @@ function timerCardHTML(compact = false) {
         <button class="btn btn-sm btn-outline-primary timer-preset" data-seconds="120">2:00</button>
         <button class="btn btn-sm btn-outline-primary timer-preset" data-seconds="180">3:00</button>
         <button class="btn btn-sm btn-outline-primary timer-preset" data-seconds="240">4:00</button>
-        <input class="form-control form-control-sm" type="number" id="timer-custom"
-               style="max-width:80px" placeholder="sec" min="1" max="3600">
+        <input class="form-control form-control-sm" type="number" id="timer-custom" style="max-width:80px" placeholder="sec" min="1" max="3600">
         <button class="btn btn-sm btn-outline-primary" id="timer-custom-set">Set</button>
       </div>
     </div>`;
@@ -821,27 +453,22 @@ function wireTimer() {
   startBtn.onclick = startTimer;
   document.getElementById('timer-pause').onclick = pauseTimer;
   document.getElementById('timer-reset').onclick = resetTimer;
-  document.querySelectorAll('.timer-preset').forEach(b =>
-    b.onclick = () => setTimer(Number(b.dataset.seconds)));
+  document.querySelectorAll('.timer-preset').forEach(b => b.onclick = () => setTimer(Number(b.dataset.seconds)));
   const customInput = document.getElementById('timer-custom');
   const applyCustom = () => {
     const v = Number(customInput.value);
     if (!isFinite(v) || v <= 0 || v > 3600) {
-      customInput.classList.add('is-invalid');
-      customInput.focus();
-      setTimeout(() => customInput.classList.remove('is-invalid'), 1200);
-      return;
+      customInput.classList.add('is-invalid'); customInput.focus();
+      setTimeout(() => customInput.classList.remove('is-invalid'), 1200); return;
     }
     setTimer(v);
   };
   document.getElementById('timer-custom-set').onclick = applyCustom;
-  customInput.addEventListener('keydown', e => {
-    if (e.key === 'Enter') { e.preventDefault(); applyCustom(); }
-  });
+  customInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyCustom(); } });
   updateTimerDisplay();
 }
 
-/* ============== NAV ============== */
+/* NAV */
 function canNavigateAway() {
   if (state.view === 'session-detail' && state.dirty) {
     if (!confirm('You have unsaved scores. Leave anyway?')) return false;
@@ -850,25 +477,30 @@ function canNavigateAway() {
   return true;
 }
 function renderNav() {
-  if (!state.user || state.recoveryMode) { navLinks.innerHTML = ''; return; }
+  if (!state.user || state.recoveryMode) { navLinks.innerHTML = ''; bottomNav.style.display = 'none'; return; }
+  bottomNav.style.display = '';
+  
   const tabs = [
     ['dashboard', '◈ Dashboard'], ['sessions', '◎ Sessions'], ['timer', '◔ Timer'],
     ['equipment', '⌁ Equipment'], ['stats', '▤ Statistics'], ['events', '◇ Events'],
   ];
-  navLinks.innerHTML = tabs.map(([k,l]) =>
-    `<a class="nav-link ${state.view===k?'active':''}" href="#" data-view="${k}">${l}</a>`
-  ).join('') + `<a class="nav-link" href="#" id="logout">⏻ Logout</a>`;
-  navLinks.querySelectorAll('[data-view]').forEach(a =>
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      if (!canNavigateAway()) return;
-      state.view = a.dataset.view;
-      render();
-    }));
-  document.getElementById('logout').addEventListener('click', async e => {
-    e.preventDefault();
-    if (!canNavigateAway()) return;
-    await sb.auth.signOut();
+  navLinks.innerHTML = tabs.map(([k,l]) => `<a class="nav-link ${state.view===k?'active':''}" href="#" data-view="${k}">${l}</a>`).join('')
+    + `<a class="nav-link" href="#" id="logout">⏻ Logout</a>`;
+  
+  // Update top nav
+  navLinks.querySelectorAll('[data-view]').forEach(a => a.addEventListener('click', e => {
+    e.preventDefault(); if (!canNavigateAway()) return; state.view = a.dataset.view; render();
+  }));
+  document.getElementById('logout')?.addEventListener('click', async e => {
+    e.preventDefault(); if (!canNavigateAway()) return; await sb.auth.signOut();
+  });
+
+  // Update bottom nav
+  bottomNav.querySelectorAll('[data-view]').forEach(a => {
+    a.classList.toggle('active', state.view === a.dataset.view);
+    a.onclick = e => {
+      e.preventDefault(); if (!canNavigateAway()) return; state.view = a.dataset.view; render();
+    };
   });
 }
 
@@ -880,22 +512,22 @@ async function render() {
     currentBeforeUnloadHandler = null;
   }
   renderNav();
-  if (state.recoveryMode)              return renderResetPassword();
-  if (!state.user)                     return renderAuth();
-  if (state.view === 'dashboard')      return renderDashboard();
-  if (state.view === 'sessions')       return renderSessions();
+  if (state.recoveryMode) return renderResetPassword();
+  if (!state.user) return renderAuth();
+  if (state.view === 'dashboard') return renderDashboard();
+  if (state.view === 'sessions') return renderSessions();
   if (state.view === 'session-detail') return renderSessionDetail();
-  if (state.view === 'timer')          return renderTimerTab();
-  if (state.view === 'equipment')      return renderEquipment();
-  if (state.view === 'stats')          return renderStats();
-  if (state.view === 'events')         return renderEvents();
+  if (state.view === 'timer') return renderTimerTab();
+  if (state.view === 'equipment') return renderEquipment();
+  if (state.view === 'stats') return renderStats();
+  if (state.view === 'events') return renderEvents();
 }
 
-/* ============== AUTH HELPERS ============== */
-const EYE_ON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
-const EYE_OFF = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
-const MAIL_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>`;
-const LOCK_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+/* AUTH */
+const EYE_ON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+const EYE_OFF = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+const MAIL_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>`;
+const LOCK_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
 
 function passwordScore(pwd) {
   if (!pwd || pwd.length < 6) return 0;
@@ -907,19 +539,16 @@ function passwordScore(pwd) {
   return Math.min(s, 4);
 }
 const STRENGTH_LABELS = { 0: 'Too short', 1: 'Weak', 2: 'Fair', 3: 'Good', 4: 'Strong' };
-
-function isValidEmail(e) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || '').trim());
-}
+function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || '').trim()); }
 function friendlyAuthError(msg) {
   const m = String(msg || '').toLowerCase();
   if (m.includes('invalid login credentials')) return 'Email or password is incorrect.';
-  if (m.includes('user already registered'))   return 'An account with this email already exists. Try signing in.';
-  if (m.includes('email not confirmed'))       return 'Please confirm your email before signing in. Check your inbox.';
-  if (m.includes('rate limit') || m.includes('too many')) return 'Too many attempts. Please wait a minute and try again.';
-  if (m.includes('invalid email'))             return 'Please enter a valid email address.';
+  if (m.includes('user already registered')) return 'An account with this email already exists.';
+  if (m.includes('email not confirmed')) return 'Please confirm your email before signing in.';
+  if (m.includes('rate limit') || m.includes('too many')) return 'Too many attempts. Wait a minute.';
+  if (m.includes('invalid email')) return 'Please enter a valid email address.';
   if (m.includes('password') && m.includes('6')) return 'Password must be at least 6 characters.';
-  if (m.includes('network') || m.includes('fetch')) return 'Network error. Check your connection and try again.';
+  if (m.includes('network') || m.includes('fetch')) return 'Network error. Check your connection.';
   return msg;
 }
 function wirePasswordToggles(root) {
@@ -931,7 +560,6 @@ function wirePasswordToggles(root) {
       input.type = showing ? 'password' : 'text';
       btn.innerHTML = showing ? EYE_ON : EYE_OFF;
       btn.setAttribute('aria-pressed', String(!showing));
-      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
       input.focus();
     });
   });
@@ -948,8 +576,7 @@ function wireStrength(input, strength) {
     strength.dataset.score = s;
     strength.querySelector('.strength-label').textContent = STRENGTH_LABELS[s];
   };
-  input.addEventListener('input', update);
-  update();
+  input.addEventListener('input', update); update();
 }
 function setBtnLoading(btn, loading, loadingText = 'Please wait…') {
   if (!btn) return;
@@ -967,11 +594,7 @@ function authError(msg, form, fieldName) {
   if (msgEl) msgEl.innerHTML = alertBox(msg);
   if (form && fieldName) {
     const field = form.querySelector(`[name="${fieldName}"]`);
-    if (field) {
-      field.classList.add('is-invalid');
-      field.focus();
-      setTimeout(() => field.classList.remove('is-invalid'), 1400);
-    }
+    if (field) { field.classList.add('is-invalid'); field.focus(); setTimeout(() => field.classList.remove('is-invalid'), 1400); }
   }
 }
 function authSuccess(msg) {
@@ -979,7 +602,6 @@ function authSuccess(msg) {
   if (msgEl) msgEl.innerHTML = alertBox(msg, 'success');
 }
 
-/* ============== AUTH ============== */
 function renderAuth(mode = 'signin') {
   const tabsHTML = (mode === 'forgot') ? '' : `
     <div class="auth-tabs">
@@ -998,67 +620,46 @@ function renderAuth(mode = 'signin') {
     signin: `
       <form id="signin-form" novalidate>
         ${msgRegion}
-        <div class="mb-3">
-          <label class="form-label" for="si-email">Email</label>
-          <div class="input-icon-wrap">
-            <span class="input-icon">${MAIL_ICON}</span>
-            <input id="si-email" class="form-control" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
-          </div>
-        </div>
+        <div class="mb-3"><label class="form-label" for="si-email">Email</label>
+          <div class="input-icon-wrap"><span class="input-icon">${MAIL_ICON}</span>
+            <input id="si-email" class="form-control" type="email" name="email" autocomplete="email" placeholder="you@example.com" required></div></div>
         <div class="mb-2">
           <div class="d-flex justify-content-between align-items-center">
             <label class="form-label mb-0" for="si-pwd">Password</label>
-            <a href="#" class="link-accent" id="forgot-link" style="font-size:.75rem">Forgot?</a>
-          </div>
-          <div class="input-icon-wrap has-toggle mt-1">
-            <span class="input-icon">${LOCK_ICON}</span>
+            <a href="#" class="link-accent" id="forgot-link" style="font-size:.75rem">Forgot?</a></div>
+          <div class="input-icon-wrap has-toggle mt-1"><span class="input-icon">${LOCK_ICON}</span>
             <input id="si-pwd" class="form-control" type="password" name="password" autocomplete="current-password" placeholder="Your password" required>
-            <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button>
-          </div>
-        </div>
+            <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button></div></div>
         <button type="submit" class="btn btn-primary w-100 mt-3" style="padding:.7rem">Sign in</button>
       </form>
       <div class="auth-foot">New here? <a href="#" data-tab="signup">Create an account</a></div>`,
     signup: `
       <form id="signup-form" novalidate>
         ${msgRegion}
-        <div class="mb-3">
-          <label class="form-label" for="su-email">Email</label>
-          <div class="input-icon-wrap">
-            <span class="input-icon">${MAIL_ICON}</span>
-            <input id="su-email" class="form-control" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
-          </div>
-        </div>
+        <div class="mb-3"><label class="form-label" for="su-email">Email</label>
+          <div class="input-icon-wrap"><span class="input-icon">${MAIL_ICON}</span>
+            <input id="su-email" class="form-control" type="email" name="email" autocomplete="email" placeholder="you@example.com" required></div></div>
         <div class="mb-2">
           <label class="form-label" for="su-pwd">Password</label>
-          <div class="input-icon-wrap has-toggle">
-            <span class="input-icon">${LOCK_ICON}</span>
+          <div class="input-icon-wrap has-toggle"><span class="input-icon">${LOCK_ICON}</span>
             <input id="su-pwd" class="form-control" type="password" name="password" autocomplete="new-password" placeholder="At least 6 characters" required minlength="6">
-            <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button>
-          </div>
+            <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button></div>
           <div class="strength d-none" data-score="0">
             <div class="strength-bars"><span></span><span></span><span></span><span></span></div>
-            <div class="strength-label">Too short</div>
-          </div>
-          <div class="strength-tip d-none">Tip: mix case, numbers, and symbols for a stronger password</div>
-        </div>
+            <div class="strength-label">Too short</div></div>
+          <div class="strength-tip d-none">Tip: mix case, numbers, and symbols</div></div>
         <button type="submit" class="btn btn-primary w-100 mt-3" style="padding:.7rem">Create account</button>
       </form>
       <div class="auth-foot">Already have an account? <a href="#" data-tab="signin">Sign in</a></div>`,
     forgot: `
       <form id="forgot-form" novalidate>
         ${msgRegion}
-        <div class="mb-3">
-          <label class="form-label" for="fp-email">Email</label>
-          <div class="input-icon-wrap">
-            <span class="input-icon">${MAIL_ICON}</span>
-            <input id="fp-email" class="form-control" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
-          </div>
-        </div>
+        <div class="mb-3"><label class="form-label" for="fp-email">Email</label>
+          <div class="input-icon-wrap"><span class="input-icon">${MAIL_ICON}</span>
+            <input id="fp-email" class="form-control" type="email" name="email" autocomplete="email" placeholder="you@example.com" required></div></div>
         <div class="d-flex gap-2 mt-3">
           <button type="button" class="btn btn-outline-secondary" id="forgot-back">\u2190 Back</button>
-          <button type="submit" class="btn btn-primary flex-grow-1">Send reset link</button>
-        </div>
+          <button type="submit" class="btn btn-primary flex-grow-1">Send reset link</button></div>
       </form>`,
   };
 
@@ -1080,68 +681,46 @@ function renderAuth(mode = 'signin') {
           <h1>MyArcherLog</h1>
           <p>Track every arrow. Know every shot.</p>
           <ul class="auth-features">
-            <li><span class="feature-icon">\u{1F3AF}</span>
-              <div><div class="feature-title">Custom rounds</div>
-              <div class="feature-sub">Any distance, any structure</div></div>
-            </li>
-            <li><span class="feature-icon">\u23F1</span>
-              <div><div class="feature-title">Shooting timer</div>
-              <div class="feature-sub">Built in, with audio cues</div></div>
-            </li>
-            <li><span class="feature-icon">\u{1F4CA}</span>
-              <div><div class="feature-title">Arrow analytics</div>
-              <div class="feature-sub">Find the underperformer</div></div>
-            </li>
+            <li><span class="feature-icon">🎯</span><div><div class="feature-title">Custom rounds</div><div class="feature-sub">Any distance, any structure</div></div></li>
+            <li><span class="feature-icon">⏱</span><div><div class="feature-title">Shooting timer</div><div class="feature-sub">Built in, with audio cues</div></div></li>
+            <li><span class="feature-icon">📊</span><div><div class="feature-title">Arrow analytics</div><div class="feature-sub">Find the underperformer</div></div></li>
           </ul>
         </div>
       </aside>
       <section class="auth-form-side">
         <div class="auth-form-wrap">
-          <div class="auth-head">
-            <h2 class="auth-title">${title}</h2>
-            <p class="auth-sub">${sub}</p>
-          </div>
+          <div class="auth-head"><h2 class="auth-title">${title}</h2><p class="auth-sub">${sub}</p></div>
           ${tabsHTML}
           <div id="auth-body">${forms[mode] || forms.signin}</div>
         </div>
       </section>
     </div>`;
 
-  document.querySelectorAll('[data-tab]').forEach(a =>
-    a.addEventListener('click', e => { e.preventDefault(); renderAuth(a.dataset.tab); }));
+  document.querySelectorAll('[data-tab]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); renderAuth(a.dataset.tab); }));
   wirePasswordToggles(app);
-
-  setTimeout(() => {
-    const first = app.querySelector('input[name="email"]');
-    if (first && !first.value) first.focus();
-  }, 80);
+  setTimeout(() => { const first = app.querySelector('input[name="email"]'); if (first && !first.value) first.focus(); }, 80);
 
   const signinForm = document.getElementById('signin-form');
   if (signinForm) {
-    document.getElementById('forgot-link').addEventListener('click', e => {
-      e.preventDefault(); renderAuth('forgot');
-    });
+    document.getElementById('forgot-link').addEventListener('click', e => { e.preventDefault(); renderAuth('forgot'); });
     signinForm.addEventListener('submit', async e => {
       e.preventDefault();
       const fd = new FormData(signinForm);
       const email = String(fd.get('email') || '').trim();
       const password = String(fd.get('password') || '');
       document.getElementById('auth-msg').innerHTML = '';
-      if (!email)               { authError('Email is required.', signinForm, 'email'); return; }
+      if (!email) { authError('Email is required.', signinForm, 'email'); return; }
       if (!isValidEmail(email)) { authError('Please enter a valid email address.', signinForm, 'email'); return; }
-      if (!password)            { authError('Password is required.', signinForm, 'password'); return; }
+      if (!password) { authError('Password is required.', signinForm, 'password'); return; }
       const btn = signinForm.querySelector('button[type=submit]');
       setBtnLoading(btn, true, 'Signing in\u2026');
       try {
         const { error } = await sb.auth.signInWithPassword({ email, password });
         if (error) authError(friendlyAuthError(error.message));
-      } catch { authError('Network error. Please check your connection and try again.'); }
+      } catch { authError('Network error. Please check your connection.'); }
       finally { setBtnLoading(btn, false); }
     });
-    try {
-      const lastEmail = sessionStorage.getItem('mal-last-email');
-      if (lastEmail) signinForm.querySelector('[name=email]').value = lastEmail;
-    } catch {}
+    try { const lastEmail = sessionStorage.getItem('mal-last-email'); if (lastEmail) signinForm.querySelector('[name=email]').value = lastEmail; } catch {}
   }
 
   const signupForm = document.getElementById('signup-form');
@@ -1153,9 +732,9 @@ function renderAuth(mode = 'signin') {
       const email = String(fd.get('email') || '').trim();
       const password = String(fd.get('password') || '');
       document.getElementById('auth-msg').innerHTML = '';
-      if (!email)               { authError('Email is required.', signupForm, 'email'); return; }
+      if (!email) { authError('Email is required.', signupForm, 'email'); return; }
       if (!isValidEmail(email)) { authError('Please enter a valid email address.', signupForm, 'email'); return; }
-      if (password.length < 6)  { authError('Password must be at least 6 characters.', signupForm, 'password'); return; }
+      if (password.length < 6) { authError('Password must be at least 6 characters.', signupForm, 'password'); return; }
       const btn = signupForm.querySelector('button[type=submit]');
       setBtnLoading(btn, true, 'Creating account\u2026');
       try {
@@ -1165,7 +744,7 @@ function renderAuth(mode = 'signin') {
           try { sessionStorage.setItem('mal-last-email', email); } catch {}
           authSuccess('\u2713 Account created. Check your email if confirmation is required, then sign in.');
         }
-      } catch { authError('Network error. Please check your connection and try again.'); }
+      } catch { authError('Network error. Please check your connection.'); }
       finally { setBtnLoading(btn, false); }
     });
   }
@@ -1178,21 +757,18 @@ function renderAuth(mode = 'signin') {
       const fd = new FormData(forgotForm);
       const email = String(fd.get('email') || '').trim();
       document.getElementById('auth-msg').innerHTML = '';
-      if (!email)               { authError('Email is required.', forgotForm, 'email'); return; }
+      if (!email) { authError('Email is required.', forgotForm, 'email'); return; }
       if (!isValidEmail(email)) { authError('Please enter a valid email address.', forgotForm, 'email'); return; }
       const btn = forgotForm.querySelector('button[type=submit]');
       setBtnLoading(btn, true, 'Sending\u2026');
       try {
-        // Route through Apps Script (bypasses Supabase email rate limit)
         await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',  // fire-and-forget; Apps Script validates + sends
+          method: 'POST', mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ email }),
         });
-      } catch (_) { /* silent — never leak whether email exists */ }
+      } catch (_) {}
       finally { setBtnLoading(btn, false); }
-      // Always show success — security: can't reveal whether account exists
       authSuccess('\u2713 If that email exists, a reset link is on its way. Check your inbox in a few minutes.');
     });
   }
@@ -1202,36 +778,23 @@ function renderResetPassword() {
   app.innerHTML = `
     <div class="fade-in">
       <div class="card reset-card">
-        <div class="auth-head">
-          <h2 class="auth-title">Set a new password</h2>
-          <p class="auth-sub">Choose a strong password to secure your account</p>
-        </div>
+        <div class="auth-head"><h2 class="auth-title">Set a new password</h2><p class="auth-sub">Choose a strong password</p></div>
         <form id="reset-form" novalidate>
           <div id="auth-msg" class="mb-3" aria-live="polite" aria-atomic="true"></div>
-          <div class="mb-3">
-            <label class="form-label" for="rp-pwd">New password</label>
-            <div class="input-icon-wrap has-toggle">
-              <span class="input-icon">${LOCK_ICON}</span>
+          <div class="mb-3"><label class="form-label" for="rp-pwd">New password</label>
+            <div class="input-icon-wrap has-toggle"><span class="input-icon">${LOCK_ICON}</span>
               <input id="rp-pwd" class="form-control" type="password" name="password" autocomplete="new-password" placeholder="At least 6 characters" required minlength="6">
-              <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button>
-            </div>
+              <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button></div>
             <div class="strength d-none" data-score="0">
               <div class="strength-bars"><span></span><span></span><span></span><span></span></div>
-              <div class="strength-label">Too short</div>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label" for="rp-pwd2">Confirm new password</label>
-            <div class="input-icon-wrap has-toggle">
-              <span class="input-icon">${LOCK_ICON}</span>
+              <div class="strength-label">Too short</div></div></div>
+          <div class="mb-3"><label class="form-label" for="rp-pwd2">Confirm new password</label>
+            <div class="input-icon-wrap has-toggle"><span class="input-icon">${LOCK_ICON}</span>
               <input id="rp-pwd2" class="form-control" type="password" name="password2" autocomplete="new-password" placeholder="Repeat password" required minlength="6">
-              <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button>
-            </div>
-          </div>
+              <button type="button" class="password-toggle" aria-label="Show password">${EYE_ON}</button></div></div>
           <div class="d-flex gap-2 mt-4">
             <button type="button" class="btn btn-outline-secondary" id="reset-cancel">Cancel</button>
-            <button type="submit" class="btn btn-primary flex-grow-1">Update password</button>
-          </div>
+            <button type="submit" class="btn btn-primary flex-grow-1">Update password</button></div>
         </form>
       </div>
     </div>`;
@@ -1239,19 +802,15 @@ function renderResetPassword() {
   const form = document.getElementById('reset-form');
   wireStrength(form.querySelector('input[name=password]'), form.querySelector('.strength'));
   setTimeout(() => form.querySelector('[name=password]')?.focus(), 80);
-
-  document.getElementById('reset-cancel').onclick = async () => {
-    state.recoveryMode = false;
-    await sb.auth.signOut();
-  };
+  document.getElementById('reset-cancel').onclick = async () => { state.recoveryMode = false; await sb.auth.signOut(); };
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const fd = new FormData(form);
-    const pwd  = String(fd.get('password')  || '');
+    const pwd = String(fd.get('password') || '');
     const pwd2 = String(fd.get('password2') || '');
     document.getElementById('auth-msg').innerHTML = '';
     if (pwd.length < 6) { authError('Password must be at least 6 characters.', form, 'password'); return; }
-    if (pwd !== pwd2)   { authError('Passwords do not match.', form, 'password2'); return; }
+    if (pwd !== pwd2) { authError('Passwords do not match.', form, 'password2'); return; }
     const btn = form.querySelector('button[type=submit]');
     setBtnLoading(btn, true, 'Updating\u2026');
     try {
@@ -1260,73 +819,92 @@ function renderResetPassword() {
       authSuccess('\u2713 Password updated. Redirecting\u2026');
       state.recoveryMode = false;
       setTimeout(() => { state.view = 'dashboard'; render(); }, 900);
-    } catch { authError('Network error. Please check your connection and try again.'); }
+    } catch { authError('Network error.'); }
     finally { setBtnLoading(btn, false); }
   });
 }
 
-/* ============== DASHBOARD ============== */
+/* DASHBOARD */
 async function renderDashboard() {
   app.innerHTML = `
     <div class="fade-in">
       <h1 class="h3 fw-bold mb-1">Dashboard</h1>
       <p class="text-muted mb-4">Welcome back, ${esc(state.user.email)}</p>
       <div id="dash-stats" class="row g-3 mb-4"></div>
-      <h2 class="h5 mb-3" style="font-weight:800">Recent sessions</h2>
+      <h2 class="h5 mb-3">Recent sessions</h2>
       <div id="dash-recent"><p class="text-muted">Loading…</p></div>
     </div>`;
   const { data, error } = await sb.from('sessions')
     .select('*, rounds(name), ends(arrows(score))')
     .order('session_date', { ascending: false }).order('id', { ascending: false }).limit(50);
   if (error) { document.getElementById('dash-stats').innerHTML = alertBox(error.message); return; }
-  const rows = (data ?? []).map(s => ({
-    ...s,
-    total: (s.ends ?? []).flatMap(e => e.arrows ?? []).reduce((sum, a) => sum + (a.score ?? 0), 0)
-  }));
-  const totalArrows = rows.reduce((sum, s) =>
-    sum + (s.ends ?? []).flatMap(e => e.arrows ?? []).filter(a => a.score != null).length, 0);
+  const rows = (data ?? []).map(s => ({ ...s, total: (s.ends ?? []).flatMap(e => e.arrows ?? []).reduce((sum, a) => sum + (a.score ?? 0), 0) }));
+  const totalArrows = rows.reduce((sum, s) => sum + (s.ends ?? []).flatMap(e => e.arrows ?? []).filter(a => a.score != null).length, 0);
   const avg = rows.length ? (rows.reduce((sum, s) => sum + s.total, 0) / rows.length).toFixed(1) : '0.0';
   const best = rows.length ? Math.max(...rows.map(s => s.total)) : 0;
   document.getElementById('dash-stats').innerHTML = [
-    ['Sessions', rows.length], ['Arrows Shot', totalArrows],
-    ['Avg Score', avg], ['Personal Best', best],
-  ].map(([l, v]) => `
-    <div class="col-6 col-md-3">
-      <div class="stat-card">
-        <div class="stat-label">${l}</div>
-        <div class="stat-value">${v}</div>
-      </div>
-    </div>`).join('');
+    ['Sessions', rows.length], ['Arrows Shot', totalArrows], ['Avg Score', avg], ['Personal Best', best],
+  ].map(([l, v]) => `<div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div></div>`).join('');
   const recent = rows.slice(0, 5);
   document.getElementById('dash-recent').innerHTML = recent.length ? `
-    <div class="card p-3">
-      <div class="table-responsive"><table class="table table-striped align-middle mb-0">
-        <thead><tr><th>Date</th><th>Round</th><th>Location</th><th class="text-end">Total</th></tr></thead>
-        <tbody>${recent.map(s => `<tr>
-          <td>${esc(s.session_date)}</td>
-          <td>${esc(s.rounds?.name ?? 'Free')}</td>
-          <td>${esc(s.location ?? '—')}</td>
-          <td class="text-end end-total">${s.total}</td>
-        </tr>`).join('')}</tbody>
-      </table></div>
-    </div>`
-    : `<div class="card"><div class="empty-state">
-        <div class="icon">🎯</div>
-        <div class="title">No sessions yet</div>
-        <div class="subtitle">Start your first one from <strong>Sessions</strong>.</div>
-      </div></div>`;
+    <div class="card p-3"><div class="table-responsive"><table class="table table-striped align-middle mb-0">
+      <thead><tr><th>Date</th><th>Round</th><th>Location</th><th class="text-end">Total</th></tr></thead>
+      <tbody>${recent.map(s => `<tr>
+        <td>${esc(s.session_date)}</td>
+        <td>${esc(s.rounds?.name ?? 'Free')}</td>
+        <td>${esc(s.location ?? '—')}</td>
+        <td class="text-end end-total">${s.total}</td>
+      </tr>`).join('')}</tbody>
+    </table></div></div>`
+    : `<div class="card"><div class="empty-state"><div class="icon">🎯</div><div class="title">No sessions yet</div><div class="subtitle">Start your first one from <strong>Sessions</strong>.</div></div></div>`;
 }
 
-/* ============== SESSIONS ============== */
-function newSegmentRow() {
-  return `<div class="d-flex gap-2 mb-2 cr-seg">
-    <input class="form-control form-control-sm" type="number" name="distance"
-           placeholder="Distance (m)" style="max-width:130px" min="0" required>
-    <input class="form-control form-control-sm" type="number" name="arrows"
-           placeholder="Arrows/end" style="max-width:120px" min="1" value="6">
-    <input class="form-control form-control-sm" type="number" name="ends"
-           placeholder="Ends" style="max-width:90px" min="1" value="6">
-    <button class="btn btn-sm btn-outline-danger cr-del" type="button">×</button>
+/* SESSIONS */
+function newSegmentRow(index) {
+  return `<div class="cr-seg card p-3 mb-3" style="background:var(--surface-2);border:1px solid var(--border-2);box-shadow:none">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h6 class="mb-0 fw-bold text-muted">Round <span class="seg-num">${index + 1}</span></h6>
+      <button class="btn btn-sm btn-outline-danger cr-del" type="button" style="padding:.1rem .4rem">×</button>
+    </div>
+    <div class="row g-2">
+      <div class="col-6 col-md-3">
+        <label class="form-label mb-1">Distance (m)</label>
+        <input class="form-control form-control-sm" type="number" name="distance" required>
+      </div>
+      <div class="col-6 col-md-4">
+        <label class="form-label mb-1">Target Face</label>
+        <select class="form-select form-select-sm" name="face_type">
+          <option value="">Face…</option>
+          <optgroup label="Regular">
+            <option>WA Full (122cm)</option><option>WA Full (80cm)</option><option>WA 6 Ring (80cm)</option>
+            <option>WA 6 Ring (40cm)</option><option>WA 5 Ring (60cm)</option><option>WA 3 Ring (40cm)</option>
+            <option>WA Vertical 3 Spot (40cm)</option><option>Vegas 3 Spot</option><option>Vegas 5 Spot</option>
+            <option>WA Danage 3 Spot</option><option>WA Danage 6 Spot</option><option>NFAA Indoor</option>
+            <option>NFAA Indoor 5 Spot</option><option>Hit or miss</option><option>Beursault</option>
+            <option>SCA Period</option><option>Worcester</option><option>DBSC Blowpipe</option>
+          </optgroup>
+          <optgroup label="Field">
+            <option>WA Field (20cm)</option><option>WA Field 3 Spot (20cm)</option>
+            <option>NFAA Field</option><option>NFAA Official Field</option>
+            <option>NFAA Hunter</option><option>NFAS Field</option>
+          </optgroup>
+          <optgroup label="3D">
+            <option>IFAA Animal</option><option>NFAA Animal</option>
+            <option>3D ASA</option><option>3D ASA 14</option>
+            <option>3D IBO</option><option>3D NFAS</option>
+            <option>3D Dair</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="col-6 col-md-2">
+        <label class="form-label mb-1">Ends</label>
+        <input class="form-control form-control-sm" type="number" name="ends" value="6" min="1">
+      </div>
+      <div class="col-6 col-md-3">
+        <label class="form-label mb-1">Arrows</label>
+        <input class="form-control form-control-sm" type="number" name="arrows" value="6" min="1">
+      </div>
+    </div>
   </div>`;
 }
 
@@ -1335,117 +913,128 @@ async function renderSessions() {
   const [{ data: rounds }, { data: bows }, { data: sets }] = await Promise.all([
     sb.from('rounds').select('*').order('name'),
     sb.from('bows').select('*').order('name'),
-    sb.from('arrow_sets').select('*').order('name')
+    sb.from('arrow_sets').select('*').order('name'),
   ]);
   app.innerHTML = `
     <div class="fade-in">
       <h1 class="h3 fw-bold mb-3">Sessions</h1>
       <div class="card p-3 mb-4">
-        <h2 class="h6 mb-3" style="font-weight:800">Start a new session</h2>
+        <h2 class="h6 mb-3">Start a new session</h2>
         <form id="session-form" class="row g-3">
           <div class="col-md-4"><label class="form-label">Round</label>
             <select class="form-select" name="round_id" required>
               <option value="">Select a round…</option>
               ${(rounds ?? []).map(r => {
-                const totalEnds = r.segments
-                  ? r.segments.reduce((s, seg) => s + seg.ends, 0)
-                  : r.ends;
-                const distStr = r.segments
-                  ? [...new Set(r.segments.map(s => s.distance))].join('/') + 'm'
-                  : (r.distances?.[0] ?? '?') + 'm';
-                return `<option value="${r.id}">${esc(r.name)} · ${distStr} · ${totalEnds} ends</option>`;
+                const totalEnds = r.segments ? r.segments.reduce((s, seg) => s + seg.ends, 0) : r.ends;
+                const dists = r.segments ? [...new Set(r.segments.map(s => s.distance))] : (r.distances ?? []);
+                const faces = r.segments ? [...new Set(r.segments.map(s => s.face).filter(Boolean))] : (r.target_face ? [r.target_face] : []);
+                const distStr = dists.length ? dists.join('/') + 'm' : '?';
+                const faceStr = faces.length ? ' · ' + faces.join('/') : '';
+                return `<option value="${r.id}">${esc(r.name)} · ${distStr}${faceStr} · ${totalEnds} ends</option>`;
               }).join('')}
             </select></div>
           <div class="col-md-4"><label class="form-label">Bow</label>
-            <select class="form-select" name="bow_id">
-              <option value="">No bow</option>
+            <select class="form-select" name="bow_id"><option value="">No bow</option>
               ${(bows ?? []).map(b => `<option value="${b.id}">${esc(b.name)}</option>`).join('')}
             </select></div>
           <div class="col-md-4"><label class="form-label">Arrow set</label>
-            <select class="form-select" name="arrow_set_id">
-              <option value="">No set</option>
+            <select class="form-select" name="arrow_set_id"><option value="">No set</option>
               ${(sets ?? []).map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join('')}
             </select></div>
-          <div class="col-md-3"><label class="form-label">Date</label>
-            <input class="form-control" type="date" name="session_date" value="${today}" required></div>
-          <div class="col-md-3"><label class="form-label">Location</label>
-            <input class="form-control" name="location"></div>
-          <div class="col-md-2"><label class="form-label">Wind m/s</label>
-            <input class="form-control" type="number" step="0.1" name="weather_wind_speed"></div>
+          <div class="col-md-3"><label class="form-label">Date</label><input class="form-control" type="date" name="session_date" value="${today}" required></div>
+          <div class="col-md-3"><label class="form-label">Location</label><input class="form-control" name="location"></div>
+          <div class="col-md-2"><label class="form-label">Wind m/s</label><input class="form-control" type="number" step="0.1" name="weather_wind_speed"></div>
           <div class="col-md-2"><label class="form-label">Wind dir</label>
             <select class="form-select" name="weather_wind_direction">
-              <option value="">—</option><option>N</option><option>NE</option><option>E</option>
-              <option>SE</option><option>S</option><option>SW</option><option>W</option><option>NW</option>
+              <option value="">—</option><option>N</option><option>NE</option><option>E</option><option>SE</option><option>S</option><option>SW</option><option>W</option><option>NW</option>
             </select></div>
-          <div class="col-md-2"><label class="form-label">Sight mark</label>
-            <input class="form-control" name="sight_mark"></div>
-          <div class="col-12"><label class="form-label">Notes (optional)</label>
-            <input class="form-control" name="notes" placeholder="e.g. Wind picked up at end 6, dropped two 7s"></div>
+          <div class="col-md-2"><label class="form-label">Sight mark</label><input class="form-control" name="sight_mark"></div>
+          <div class="col-12"><label class="form-label">Notes (optional)</label><input class="form-control" name="notes" placeholder="e.g. Wind picked up at end 6"></div>
           <div class="col-12"><button class="btn btn-primary">Start session →</button></div>
           <div id="session-msg" class="col-12"></div>
         </form>
-        <details class="mt-3">
-          <summary class="link-accent" style="font-weight:700">
-            ⚙ + Create custom round (any distance, any segment structure)
-          </summary>
+        
+        <details class="mt-3" id="custom-round-details">
+          <summary class="link-accent" style="font-weight:700">⚙ + Create custom round (any distance, any face)</summary>
           <div class="mt-3">
-            <div class="mb-2">
-              <label class="form-label">Round name</label>
-              <input class="form-control form-control-sm" id="cr-name"
-                     placeholder="e.g. 70m outdoor training">
+            <div class="mb-3">
+              <label class="form-label">Round Name</label>
+              <input class="form-control" id="cr-name" placeholder="e.g. My 70m practice" style="font-size:1.1rem;font-weight:700">
             </div>
-            <div class="mb-2">
-              <label class="form-label">Segments — each row is a block of ends</label>
-              <div id="cr-segments">${newSegmentRow()}</div>
-              <button class="btn btn-sm btn-outline-primary mt-2" id="cr-add" type="button">+ Add segment</button>
+            <div id="cr-segments">
+              ${newSegmentRow(0)}
             </div>
-            <button class="btn btn-sm btn-primary" id="cr-save" type="button">Save round</button>
+            <button class="btn btn-outline-primary w-100 mb-3" id="cr-add" type="button">+ Add another distance</button>
+            <button class="btn btn-primary w-100" id="cr-save" type="button">Save round</button>
             <div id="cr-msg" class="mt-2"></div>
           </div>
         </details>
       </div>
-
-      <div class="card p-3 mb-4" id="my-rounds-card">
+      
+      <div class="card p-3 mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="h6 mb-0" style="font-weight:800">My custom rounds</h2>
+          <h2 class="h6 mb-0">My custom rounds</h2>
           <span class="text-muted small" id="rounds-count"></span>
         </div>
         <div id="my-rounds-list"><p class="text-muted small mb-0">Loading…</p></div>
       </div>
-
-      <h2 class="h5 mb-3" style="font-weight:800">Your sessions</h2>
+      
+      <h2 class="h5 mb-3">Your sessions</h2>
       <div id="session-list"><p class="text-muted">Loading…</p></div>
     </div>`;
 
   const segsBox = document.getElementById('cr-segments');
-  const bindDelete = btn => btn.onclick = () => {
-    if (segsBox.children.length > 1) btn.parentElement.remove();
+  let segCount = 1;
+  
+  const updateSegNumbers = () => {
+    segsBox.querySelectorAll('.cr-seg').forEach((seg, i) => {
+      seg.querySelector('.seg-num').textContent = i + 1;
+    });
   };
+
+  const bindDelete = btn => btn.onclick = () => { 
+    if (segsBox.children.length > 1) {
+      btn.closest('.cr-seg').remove(); 
+      updateSegNumbers();
+    }
+  };
+  
   segsBox.querySelectorAll('.cr-del').forEach(bindDelete);
+  
   document.getElementById('cr-add').onclick = () => {
-    segsBox.insertAdjacentHTML('beforeend', newSegmentRow());
+    segsBox.insertAdjacentHTML('beforeend', newSegmentRow(segCount++));
     bindDelete(segsBox.lastElementChild.querySelector('.cr-del'));
   };
+
   document.getElementById('cr-save').onclick = async () => {
     const name = document.getElementById('cr-name').value.trim();
     const msg = document.getElementById('cr-msg'); msg.innerHTML = '';
-    const segments = [...segsBox.querySelectorAll('.cr-seg')].map(row => ({
-      distance: Number(row.querySelector('[name=distance]').value),
-      arrows: Number(row.querySelector('[name=arrows]').value) || 6,
-      ends: Number(row.querySelector('[name=ends]').value) || 6,
-    })).filter(s => isFinite(s.distance) && s.distance >= 0);
+    const segments = [...segsBox.querySelectorAll('.cr-seg')].map(row => {
+      const face = row.querySelector('[name=face_type]').value;
+      return {
+        distance: Number(row.querySelector('[name=distance]').value),
+        arrows: Number(row.querySelector('[name=arrows]').value) || 6,
+        ends: Number(row.querySelector('[name=ends]').value) || 6,
+        face: face || null,
+      };
+    }).filter(s => isFinite(s.distance) && s.distance >= 0);
+    
     if (!name) { msg.innerHTML = alertBox('Name required.'); return; }
     if (!segments.length) { msg.innerHTML = alertBox('Add at least one segment.'); return; }
+    
     const totalEnds = segments.reduce((s, seg) => s + seg.ends, 0);
     const distances = [...new Set(segments.map(s => s.distance))];
+    const faces = segments.map(s => s.face).filter(Boolean);
+    const target_face = faces.length ? [...new Set(faces)].join(' / ') : null;
+    
     const { error } = await sb.from('rounds').insert({
-      user_id: state.user.id, name, discipline: 'custom', target_face: null,
-      distances, arrows_per_end: segments[0].arrows, ends: totalEnds,
-      scoring_style: 'WA', segments,
+      user_id: state.user.id, name, discipline: 'custom', target_face,
+      distances, arrows_per_end: segments[0].arrows, ends: totalEnds, scoring_style: 'WA', segments,
     });
     if (error) { msg.innerHTML = alertBox(error.message); return; }
     renderSessions();
   };
+
   document.getElementById('session-form').addEventListener('submit', async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -1463,59 +1052,32 @@ async function renderSessions() {
       notes: fd.get('notes') || null,
     }).select('id').single();
     if (error) { msg.innerHTML = alertBox(error.message); return; }
-    state.sessionId = data.id;
-    state.dirty = false;
-    state.view = 'session-detail';
-    render();
+    state.sessionId = data.id; state.dirty = false; state.view = 'session-detail'; render();
   });
 
-  // Rounds management (patch B3)
   const userRounds = (rounds ?? []).filter(r => r.user_id === state.user.id);
   const myRoundsList = document.getElementById('my-rounds-list');
   const roundsCount = document.getElementById('rounds-count');
   if (!userRounds.length) {
-    myRoundsList.innerHTML = `<p class="text-muted small mb-0">No custom rounds yet — create one above.</p>`;
-    roundsCount.textContent = '';
+    myRoundsList.innerHTML = '<p class="text-muted small mb-0">No custom rounds yet — create one above.</p>';
   } else {
     roundsCount.textContent = userRounds.length + ' round' + (userRounds.length !== 1 ? 's' : '');
-    myRoundsList.innerHTML = `<div class="table-responsive">
-      <table class="table table-sm align-middle mb-0">
-        <thead><tr><th>Name</th><th>Distance(s)</th><th>Structure</th><th></th></tr></thead>
-        <tbody>${userRounds.map(r => {
-          const segs = (r.segments ?? []).map(s =>
-            `${s.ends}×${s.arrows}@${s.distance}m`).join(', ');
-          const dists = [...new Set((r.segments ?? []).map(s => s.distance))];
-          return `<tr>
-            <td>${esc(r.name)}</td>
-            <td>${dists.length ? dists.join('/') + 'm' : '—'}</td>
-            <td class="text-muted small">${esc(segs || (r.arrows_per_end + '×' + r.ends))}</td>
-            <td class="text-end">
-              <button class="btn btn-sm btn-outline-danger" data-del-round="${r.id}">Delete</button>
-            </td>
-          </tr>`;
-        }).join('')}</tbody>
-      </table>
-    </div>`;
+    myRoundsList.innerHTML = `<div class="table-responsive"><table class="table table-sm align-middle mb-0">
+      <thead><tr><th>Name</th><th>Segments</th><th></th></tr></thead>
+      <tbody>${userRounds.map(r => {
+        const segs = (r.segments ?? []).map(s => `${s.ends}×${s.arrows}@${s.distance}m${s.face ? ' (' + s.face + ')' : ''}`).join(' · ');
+        return `<tr>
+          <td>${esc(r.name)}</td>
+          <td class="text-muted small">${esc(segs)}</td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-danger" data-del-round="${r.id}">Delete</button></td>
+        </tr>`;
+      }).join('')}</tbody></table></div>`;
     myRoundsList.querySelectorAll('[data-del-round]').forEach(btn =>
       btn.addEventListener('click', async () => {
-        const roundId = Number(btn.dataset.delRound);
-        const round = userRounds.find(r => r.id === roundId);
-        if (!round) return;
-        const ok = confirm(
-          `Delete round "${round.name}"?\n\n` +
-          `Any sessions that used this round will keep their scores but ` +
-          `will no longer be associated with a round name (they become "Free" sessions).`
-        );
-        if (!ok) return;
-        btn.disabled = true;
-        btn.textContent = '…';
-        const { error } = await sb.from('rounds').delete().eq('id', roundId);
-        if (error) {
-          alert(error.message);
-          btn.disabled = false;
-          btn.textContent = 'Delete';
-          return;
-        }
+        if (!confirm('Delete this round? Sessions that used it become "Free" sessions.')) return;
+        btn.disabled = true; btn.textContent = '…';
+        const { error } = await sb.from('rounds').delete().eq('id', btn.dataset.delRound);
+        if (error) { alert(error.message); btn.disabled = false; btn.textContent = 'Delete'; return; }
         renderSessions();
       }));
   }
@@ -1530,36 +1092,25 @@ async function loadSessionList() {
     .order('session_date', { ascending: false }).order('id', { ascending: false });
   if (error) { el.innerHTML = alertBox(error.message); return; }
   if (!data?.length) {
-    el.innerHTML = `<div class="card"><div class="empty-state">
-      <div class="icon">🏹</div>
-      <div class="title">No sessions yet</div>
-      <div class="subtitle">Create one above to get started.</div>
-    </div></div>`;
+    el.innerHTML = `<div class="card"><div class="empty-state"><div class="icon">🏹</div><div class="title">No sessions yet</div><div class="subtitle">Create one above to get started.</div></div></div>`;
     return;
   }
   const bestByRound = {};
   for (const s of data) {
     const roundName = s.rounds?.name ?? 'Free';
-    const total = (s.ends ?? []).flatMap(e => e.arrows ?? [])
-      .reduce((sum, a) => sum + (a.score ?? 0), 0);
-    if (total > 0 && (!bestByRound[roundName] || total > bestByRound[roundName])) {
-      bestByRound[roundName] = total;
-    }
+    const total = (s.ends ?? []).flatMap(e => e.arrows ?? []).reduce((sum, a) => sum + (a.score ?? 0), 0);
+    if (total > 0 && (!bestByRound[roundName] || total > bestByRound[roundName])) bestByRound[roundName] = total;
   }
   el.innerHTML = `<div class="card p-3"><div class="table-responsive">
     <table class="table table-striped align-middle mb-0">
-      <thead><tr>
-        <th>Date</th><th>Round</th><th>Bow</th><th>Location</th>
-        <th class="text-end">Total</th><th></th>
-      </tr></thead>
+      <thead><tr><th>Date</th><th>Round</th><th>Bow</th><th>Location</th><th class="text-end">Total</th><th></th></tr></thead>
       <tbody>${data.map(s => {
-        const total = (s.ends ?? []).flatMap(e => e.arrows ?? [])
-          .reduce((sum, a) => sum + (a.score ?? 0), 0);
+        const total = (s.ends ?? []).flatMap(e => e.arrows ?? []).reduce((sum, a) => sum + (a.score ?? 0), 0);
         const roundName = s.rounds?.name ?? 'Free';
         const isPB = total > 0 && total === bestByRound[roundName];
         return `<tr>
           <td>${esc(s.session_date)}</td>
-          <td>${esc(roundName)} ${isPB ? '<span class="badge" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1200;box-shadow:0 4px 12px -2px rgba(245,158,11,.4)">PB</span>' : ''}</td>
+          <td>${esc(roundName)} ${isPB ? '<span class="badge" style="background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#1a1200">PB</span>' : ''}</td>
           <td>${esc(s.bows?.name ?? '—')}</td>
           <td>${esc(s.location ?? '—')}</td>
           <td class="text-end end-total">${total}</td>
@@ -1571,38 +1122,30 @@ async function loadSessionList() {
       }).join('')}</tbody>
     </table>
   </div></div>`;
-  el.querySelectorAll('[data-open]').forEach(b =>
-    b.addEventListener('click', () => {
-      state.sessionId = Number(b.dataset.open);
-      state.dirty = false;
-      state.view = 'session-detail';
-      render();
-    }));
-  el.querySelectorAll('[data-del]').forEach(b =>
-    b.addEventListener('click', async () => {
-      if (!confirm('Delete this session and all its scores?')) return;
-      const { error } = await sb.from('sessions').delete().eq('id', b.dataset.del);
-      if (error) alert(error.message); else loadSessionList();
-    }));
+  el.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => {
+    state.sessionId = Number(b.dataset.open); state.dirty = false; state.view = 'session-detail'; render();
+  }));
+  el.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('Delete this session and all its scores?')) return;
+    const { error } = await sb.from('sessions').delete().eq('id', b.dataset.del);
+    if (error) alert(error.message); else loadSessionList();
+  }));
 }
 
-/* ============== SESSION DETAIL ============== */
+/* SESSION DETAIL */
 function expandSegments(round) {
   if (round?.segments && Array.isArray(round.segments) && round.segments.length) {
     const ends = []; let n = 1;
     for (const seg of round.segments) {
-      for (let i = 0; i < seg.ends; i++) {
-        ends.push({ end_number: n++, distance: seg.distance, arrows: seg.arrows });
-      }
+      for (let i = 0; i < seg.ends; i++) ends.push({ end_number: n++, distance: seg.distance, arrows: seg.arrows, face: seg.face ?? null });
     }
     return ends;
   }
   const totalEnds = round?.ends ?? 12;
   const arrows = round?.arrows_per_end ?? 6;
   const dist = round?.distances?.[0] ?? null;
-  return Array.from({ length: totalEnds }, (_, i) => ({
-    end_number: i + 1, distance: dist, arrows
-  }));
+  const face = round?.target_face ?? null;
+  return Array.from({ length: totalEnds }, (_, i) => ({ end_number: i + 1, distance: dist, arrows, face }));
 }
 function ringClassFor(score) {
   if (score === null || score === undefined || score === '') return '';
@@ -1615,10 +1158,8 @@ function ringClassFor(score) {
 function renderSessionHeaderInner(session) {
   return `
     <div>
-      <h1 class="h4 fw-bold mb-1">
-        ${esc(session.rounds?.name ?? 'Free session')}
-        <span class="badge badge-dirty" id="dirty-badge" style="display:none">● Unsaved</span>
-      </h1>
+      <h1 class="h4 fw-bold mb-1">${esc(session.rounds?.name ?? 'Free session')}
+        <span class="badge badge-dirty" id="dirty-badge" style="display:none">● Unsaved</span></h1>
       <p class="text-muted mb-0">
         ${esc(session.session_date)}
         ${session.location ? ' · ' + esc(session.location) : ''}
@@ -1629,7 +1170,7 @@ function renderSessionHeaderInner(session) {
       ${session.notes ? `<p class="text-muted small mb-0 mt-1">📝 ${esc(session.notes)}</p>` : ''}
     </div>
     <div class="d-flex gap-2 flex-wrap">
-      <button class="btn btn-outline-primary btn-sm" id="duplicate-session" title="Create a new session with the same setup">⧉ Duplicate</button>
+      <button class="btn btn-outline-primary btn-sm" id="duplicate-session">⧉ Duplicate</button>
       <button class="btn btn-outline-primary btn-sm" id="edit-session">✎ Edit</button>
       <button class="btn btn-outline-secondary" id="back-btn">← Back</button>
     </div>`;
@@ -1637,27 +1178,24 @@ function renderSessionHeaderInner(session) {
 
 function renderSessionEditForm(session, bows, sets) {
   return `
-    <h2 class="h6 mb-3" style="font-weight:800">Edit session details</h2>
+    <h2 class="h6 mb-3">Edit session details</h2>
     <form id="session-edit-form" class="row g-3">
       <div class="col-md-3"><label class="form-label">Date</label>
         <input class="form-control" type="date" name="session_date" value="${session.session_date}" required></div>
       <div class="col-md-3"><label class="form-label">Location</label>
         <input class="form-control" name="location" value="${esc(session.location || '')}"></div>
       <div class="col-md-3"><label class="form-label">Bow</label>
-        <select class="form-select" name="bow_id">
-          <option value="">No bow</option>
+        <select class="form-select" name="bow_id"><option value="">No bow</option>
           ${bows.map(b => `<option value="${b.id}" ${session.bow_id === b.id ? 'selected' : ''}>${esc(b.name)}</option>`).join('')}
         </select></div>
       <div class="col-md-3"><label class="form-label">Arrow set</label>
-        <select class="form-select" name="arrow_set_id">
-          <option value="">No set</option>
+        <select class="form-select" name="arrow_set_id"><option value="">No set</option>
           ${sets.map(s => `<option value="${s.id}" ${session.arrow_set_id === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}
         </select></div>
       <div class="col-md-2"><label class="form-label">Wind (m/s)</label>
         <input class="form-control" type="number" step="0.1" name="weather_wind_speed" value="${session.weather_wind_speed ?? ''}"></div>
       <div class="col-md-2"><label class="form-label">Wind dir</label>
-        <select class="form-select" name="weather_wind_direction">
-          <option value="">—</option>
+        <select class="form-select" name="weather_wind_direction"><option value="">—</option>
           ${['N','NE','E','SE','S','SW','W','NW'].map(d => `<option ${session.weather_wind_direction === d ? 'selected' : ''}>${d}</option>`).join('')}
         </select></div>
       <div class="col-md-2"><label class="form-label">Sight mark</label>
@@ -1672,36 +1210,26 @@ function renderSessionEditForm(session, bows, sets) {
 }
 
 function padHTML() {
-  const btns = [10,9,8,7,6,5,4,3,2,1]
-    .map(n => `<button class="pad-btn pad-${n}" data-score="${n}" type="button">${n}</button>`)
-    .join('');
+  const btns = [10,9,8,7,6,5,4,3,2,1].map(n => `<button class="pad-btn pad-${n}" data-score="${n}" type="button">${n}</button>`).join('');
   return `
     <div class="score-pad-head">
       <div class="score-pad-title">Quick Score</div>
       <div class="score-pad-hint">Tap to score · auto-advances</div>
     </div>
-    <div class="score-pad-grid">
-      ${btns}
+    <div class="score-pad-grid">${btns}
       <button class="pad-btn pad-m" data-score="0" type="button">M</button>
       <button class="pad-btn pad-clear" data-action="clear" type="button">Clear</button>
     </div>`;
 }
-
 function showPadFor(input) {
   currentPadInput = input;
   const pad = document.getElementById('score-pad');
-  if (pad) {
-    pad.classList.add('active');
-    document.body.classList.add('pad-active');
-  }
+  if (pad) { pad.classList.add('active'); document.body.classList.add('pad-active'); }
 }
 function hidePad() {
   currentPadInput = null;
   const pad = document.getElementById('score-pad');
-  if (pad) {
-    pad.classList.remove('active');
-    document.body.classList.remove('pad-active');
-  }
+  if (pad) { pad.classList.remove('active'); document.body.classList.remove('pad-active'); }
 }
 function wirePad() {
   const pad = document.getElementById('score-pad');
@@ -1712,8 +1240,7 @@ function wirePad() {
       e.preventDefault();
       if (!currentPadInput) return;
       if (btn.dataset.action === 'clear') {
-        currentPadInput.value = '';
-        currentPadInput.dataset.ring = '';
+        currentPadInput.value = ''; currentPadInput.dataset.ring = '';
         currentPadInput.dispatchEvent(new Event('input', { bubbles: true }));
         return;
       }
@@ -1732,19 +1259,16 @@ function wirePad() {
 async function renderSessionDetail() {
   const id = state.sessionId;
   if (!id) { state.view = 'sessions'; return render(); }
-
   const [{ data: session, error }, { data: bows }, { data: sets }] = await Promise.all([
     sb.from('sessions').select('*, rounds(*), bows(name), arrow_sets(name), ends(*, arrows(*))').eq('id', id).single(),
     sb.from('bows').select('*').order('name'),
     sb.from('arrow_sets').select('*').order('name'),
   ]);
   if (error || !session) {
-    app.innerHTML = alertBox(error?.message ?? 'Session not found.') +
-      `<button class="btn btn-outline-secondary mt-3" id="back-btn">Back</button>`;
+    app.innerHTML = alertBox(error?.message ?? 'Session not found.') + `<button class="btn btn-outline-secondary mt-3" id="back-btn">Back</button>`;
     document.getElementById('back-btn').onclick = () => { state.view = 'sessions'; render(); };
     return;
   }
-
   const round = session.rounds;
   const endDefs = expandSegments(round);
   const maxArrows = Math.max(...endDefs.map(e => e.arrows), 1);
@@ -1756,35 +1280,26 @@ async function renderSessionDetail() {
           ${renderSessionHeaderInner(session)}
         </div>
       </div>
-
       <div id="session-edit-wrap" class="card p-3 mb-3 d-none"></div>
-
       ${timerCardHTML(true)}
-
       <div class="card p-3 mb-3">
         <div class="table-responsive">
           <table class="table table-bordered text-center align-middle mb-0">
-            <thead>
-              <tr>
-                <th>End</th>
-                ${Array.from({length: maxArrows}, (_, i) => `<th>#${i+1}</th>`).join('')}
-                <th>Dist</th><th>Total</th>
-              </tr>
-            </thead>
+            <thead><tr>
+              <th>End</th>
+              ${Array.from({length: maxArrows}, (_, i) => `<th>#${i+1}</th>`).join('')}
+              <th>Dist · Face</th><th>Total</th>
+            </tr></thead>
             <tbody id="score-body"></tbody>
-            <tfoot>
-              <tr>
-                <td colspan="${maxArrows + 1}" class="text-end fw-bold">Grand total</td>
-                <td></td>
-                <td id="grand-total" class="end-total fs-5">0</td>
-              </tr>
-            </tfoot>
+            <tfoot><tr>
+              <td colspan="${maxArrows + 1}" class="text-end fw-bold">Grand total</td>
+              <td></td>
+              <td id="grand-total" class="end-total fs-5">0</td>
+            </tr></tfoot>
           </table>
         </div>
       </div>
-
       <div class="score-pad" id="score-pad">${padHTML()}</div>
-
       <div class="d-flex gap-2 flex-wrap mt-3">
         <button class="btn btn-primary" id="save-scores">💾 Save scores</button>
         <button class="btn btn-outline-secondary" id="back-btn-2">Back</button>
@@ -1800,30 +1315,27 @@ async function renderSessionDetail() {
     const arrowMap = {};
     for (const a of existing?.arrows ?? []) arrowMap[a.arrow_number] = a.score;
     const dist = existing?.distance_m ?? def.distance;
+    const face = def.face ?? round?.target_face ?? null;
     const inputs = Array.from({ length: def.arrows }, (_, j) => {
       const v = arrowMap[j + 1];
       const rc = v === null || v === undefined ? '' : ringClassFor(v);
-      return `<td><input class="form-control form-control-sm score-input mx-auto"
-        type="number" min="0" max="10" inputmode="numeric" pattern="[0-9]*"
-        value="${v ?? ''}" data-ring="${rc}"></td>`;
+      return `<td><input class="form-control form-control-sm score-input mx-auto" type="number" min="0" max="10" inputmode="numeric" pattern="[0-9]*" value="${v ?? ''}" data-ring="${rc}"></td>`;
     }).join('');
     const padding = Array(maxArrows - def.arrows).fill('<td style="opacity:.3"></td>').join('');
     return `<tr data-end="${def.end_number}" data-arrows="${def.arrows}" data-dist="${dist ?? ''}">
       <td class="fw-bold">${def.end_number}</td>
       ${inputs}${padding}
-      <td class="text-muted small">${dist != null ? dist + 'm' : '—'}</td>
+      <td class="text-muted small">${dist != null ? dist + 'm' : '—'}${face ? ` · ${esc(face)}` : ''}</td>
       <td class="end-total">0</td>
     </tr>`;
   }).join('');
 
   state.dirty = false;
   const dirtyBadge = () => document.getElementById('dirty-badge');
-
   const recompute = () => {
     let grand = 0;
     body.querySelectorAll('tr').forEach(tr => {
-      const total = [...tr.querySelectorAll('.score-input')]
-        .reduce((sum, inp) => sum + (Number(inp.value) || 0), 0);
+      const total = [...tr.querySelectorAll('.score-input')].reduce((sum, inp) => sum + (Number(inp.value) || 0), 0);
       tr.querySelector('.end-total').textContent = total;
       grand += total;
     });
@@ -1834,9 +1346,7 @@ async function renderSessionDetail() {
     inp.addEventListener('input', () => {
       let raw = inp.value.trim();
       if (raw === '') {
-        inp.dataset.ring = '';
-        recompute();
-        state.dirty = true;
+        inp.dataset.ring = ''; recompute(); state.dirty = true;
         const db = dirtyBadge(); if (db) db.style.display = 'inline-block';
         return;
       }
@@ -1845,14 +1355,10 @@ async function renderSessionDetail() {
       n = Math.max(0, Math.min(10, Math.round(n)));
       inp.value = String(n);
       inp.dataset.ring = ringClassFor(n);
-      recompute();
-      state.dirty = true;
+      recompute(); state.dirty = true;
       const db = dirtyBadge(); if (db) db.style.display = 'inline-block';
     });
-    inp.addEventListener('focus', () => {
-      inp.closest('tr').classList.add('end-row-active');
-      showPadFor(inp);
-    });
+    inp.addEventListener('focus', () => { inp.closest('tr').classList.add('end-row-active'); showPadFor(inp); });
     inp.addEventListener('blur', () => {
       inp.closest('tr').classList.remove('end-row-active');
       setTimeout(() => {
@@ -1873,18 +1379,12 @@ async function renderSessionDetail() {
   recompute();
   wirePad();
 
-  // Reveal first empty score input on open (patch B6)
   setTimeout(() => {
-    const firstEmpty = [...body.querySelectorAll('.score-input')]
-      .find(inp => inp.value === '');
-    if (firstEmpty) {
-      firstEmpty.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    const firstEmpty = [...body.querySelectorAll('.score-input')].find(inp => inp.value === '');
+    if (firstEmpty) firstEmpty.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, 150);
 
-  currentBeforeUnloadHandler = e => {
-    if (state.dirty) { e.preventDefault(); e.returnValue = ''; }
-  };
+  currentBeforeUnloadHandler = e => { if (state.dirty) { e.preventDefault(); e.returnValue = ''; } };
   window.addEventListener('beforeunload', currentBeforeUnloadHandler);
 
   const saveBtn = document.getElementById('save-scores');
@@ -1896,15 +1396,12 @@ async function renderSessionDetail() {
     const msg = document.getElementById('score-msg');
     msg.innerHTML = '';
     try {
-      let savedCount = 0;
-      let failedAt = null;
+      let savedCount = 0, failedAt = null;
       for (const tr of body.querySelectorAll('tr')) {
         const endNo = Number(tr.dataset.end);
         const arrows = Number(tr.dataset.arrows);
         const dist = tr.dataset.dist !== '' ? Number(tr.dataset.dist) : null;
-        const scores = [...tr.querySelectorAll('.score-input')]
-          .slice(0, arrows)
-          .map(inp => inp.value === '' ? null : Number(inp.value));
+        const scores = [...tr.querySelectorAll('.score-input')].slice(0, arrows).map(inp => inp.value === '' ? null : Number(inp.value));
         const hasAny = scores.some(s => s !== null);
         try {
           const { data: endRow, error: endErr } = await sb.from('ends').upsert(
@@ -1915,23 +1412,16 @@ async function renderSessionDetail() {
           const { error: delErr } = await sb.from('arrows').delete().eq('end_id', endRow.id);
           if (delErr) throw delErr;
           if (hasAny) {
-            const rows = scores
-              .map((s, i) => s !== null ? { end_id: endRow.id, arrow_number: i + 1, score: s, is_x: s === 10 } : null)
-              .filter(Boolean);
+            const rows = scores.map((s, i) => s !== null ? { end_id: endRow.id, arrow_number: i + 1, score: s, is_x: s === 10 } : null).filter(Boolean);
             if (rows.length) {
               const { error: insErr } = await sb.from('arrows').insert(rows);
               if (insErr) throw insErr;
             }
           }
           savedCount++;
-        } catch (err) {
-          failedAt = { endNo, message: err.message ?? String(err) };
-          break;
-        }
+        } catch (err) { failedAt = { endNo, message: err.message ?? String(err) }; break; }
       }
-      if (failedAt) {
-        throw new Error(`Saved ends 1–${savedCount} · failed at end ${failedAt.endNo}: ${failedAt.message}`);
-      }
+      if (failedAt) throw new Error(`Saved ends 1–${savedCount} · failed at end ${failedAt.endNo}: ${failedAt.message}`);
       state.dirty = false;
       const db = dirtyBadge(); if (db) db.style.display = 'none';
       msg.innerHTML = alertBox('✓ Scores saved.', 'success');
@@ -1945,9 +1435,7 @@ async function renderSessionDetail() {
 
   const back = () => {
     if (state.dirty && !confirm('You have unsaved scores. Leave anyway?')) return;
-    state.dirty = false;
-    state.view = 'sessions';
-    render();
+    state.dirty = false; state.view = 'sessions'; render();
   };
   document.getElementById('back-btn').onclick = back;
   document.getElementById('back-btn-2').onclick = back;
@@ -1961,10 +1449,7 @@ async function renderSessionDetail() {
       wrap.innerHTML = renderSessionEditForm(session, bows ?? [], sets ?? []);
       wrap.classList.remove('d-none');
       const form = document.getElementById('session-edit-form');
-      document.getElementById('session-edit-cancel').onclick = () => {
-        wrap.innerHTML = '';
-        wrap.classList.add('d-none');
-      };
+      document.getElementById('session-edit-cancel').onclick = () => { wrap.innerHTML = ''; wrap.classList.add('d-none'); };
       form.addEventListener('submit', async e => {
         e.preventDefault();
         const submitBtn = form.querySelector('button[type=submit]');
@@ -1991,16 +1476,10 @@ async function renderSessionDetail() {
           session.arrow_sets = (sets ?? []).find(s => s.id === updates.arrow_set_id) || null;
           document.getElementById('session-header-content').innerHTML = renderSessionHeaderInner(session);
           const db = dirtyBadge(); if (db && state.dirty) db.style.display = 'inline-block';
-          wireEditButton();
-          wireDuplicateButton();
-          wrap.innerHTML = '';
-          wrap.classList.add('d-none');
-        } catch (err) {
-          alert(err.message ?? String(err));
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.textContent = origLabel;
-        }
+          wireEditButton(); wireDuplicateButton();
+          wrap.innerHTML = ''; wrap.classList.add('d-none');
+        } catch (err) { alert(err.message ?? String(err)); }
+        finally { submitBtn.disabled = false; submitBtn.textContent = origLabel; }
       });
     };
   }
@@ -2009,43 +1488,29 @@ async function renderSessionDetail() {
     const dupBtn = document.getElementById('duplicate-session');
     if (!dupBtn) return;
     dupBtn.onclick = async () => {
-      if (state.dirty && !confirm('You have unsaved scores. Duplicate anyway? The new session starts with empty scores.')) return;
+      if (state.dirty && !confirm('Unsaved scores will be lost. Continue?')) return;
       if (dupBtn.disabled) return;
       dupBtn.disabled = true;
       const orig = dupBtn.textContent;
       dupBtn.innerHTML = '<span class="spinner"></span>';
       try {
         const { data: newSession, error } = await sb.from('sessions').insert({
-          user_id: state.user.id,
-          round_id: session.round_id,
-          bow_id: session.bow_id,
-          arrow_set_id: session.arrow_set_id,
-          session_date: new Date().toISOString().slice(0, 10),
-          location: session.location,
-          weather_wind_speed: null,
-          weather_wind_direction: null,
-          sight_mark: session.sight_mark,
-          notes: session.notes,
+          user_id: state.user.id, round_id: session.round_id, bow_id: session.bow_id,
+          arrow_set_id: session.arrow_set_id, session_date: new Date().toISOString().slice(0, 10),
+          location: session.location, weather_wind_speed: null, weather_wind_direction: null,
+          sight_mark: session.sight_mark, notes: session.notes,
         }).select('id').single();
         if (error) { alert(error.message); return; }
-        state.sessionId = newSession.id;
-        state.dirty = false;
-        render();
-      } catch (err) {
-        alert(err.message ?? String(err));
-      } finally {
-        dupBtn.disabled = false;
-        dupBtn.textContent = orig;
-      }
+        state.sessionId = newSession.id; state.dirty = false; render();
+      } catch (err) { alert(err.message ?? String(err)); }
+      finally { dupBtn.disabled = false; dupBtn.textContent = orig; }
     };
   }
 
-  wireEditButton();
-  wireDuplicateButton();
-  wireTimer();
+  wireEditButton(); wireDuplicateButton(); wireTimer();
 }
 
-/* ============== TIMER TAB ============== */
+/* TIMER TAB */
 async function renderTimerTab() {
   app.innerHTML = `
     <div class="fade-in">
@@ -2053,74 +1518,111 @@ async function renderTimerTab() {
       <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
           ${timerCardHTML(false)}
-          <p class="text-muted small mt-3 text-center">
-            Single beep at 30s remaining · double beep at 0:00.<br>
-            Adjustable total — default 2:00.
-          </p>
+          <p class="text-muted small mt-3 text-center">Single beep at 30s · double beep at 0:00.<br>Adjustable total — default 2:00.</p>
         </div>
       </div>
     </div>`;
   wireTimer();
 }
 
-/* ============== EQUIPMENT ============== */
+/* EQUIPMENT */
 async function renderEquipment() {
   const [{ data: bows }, { data: sets }] = await Promise.all([
     sb.from('bows').select('*').order('name'),
-    sb.from('arrow_sets').select('*').order('name')
+    sb.from('arrow_sets').select('*').order('name'),
   ]);
+  
   app.innerHTML = `
     <div class="fade-in">
       <h1 class="h3 fw-bold mb-3">Equipment</h1>
+      
       <div class="row g-4">
         <div class="col-md-6">
-          <div class="card p-3">
-            <h2 class="h6 mb-3" style="font-weight:800">🏹 Bows</h2>
-            <form id="bow-form" class="row g-2 mb-3">
-              <div class="col-7"><input class="form-control" name="name" placeholder="Bow name" required></div>
-              <div class="col-5">
-                <select class="form-select" name="bow_type">
-                  <option value="">Type…</option>
-                  <option>Recurve</option><option>Compound</option>
-                  <option>Barebow</option><option>Longbow</option>
-                </select>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h5 mb-0">🏹 Bows</h2>
+          </div>
+          
+          <details class="mb-3">
+            <summary class="btn btn-primary w-100">+ Add New Bow</summary>
+            <form id="bow-form" class="card p-3 mt-2" style="background:var(--surface-3);box-shadow:none">
+              <div class="row g-2">
+                <div class="col-12"><label class="form-label">Bow Name</label><input class="form-control" name="name" placeholder="e.g. My Challenger" required></div>
+                <div class="col-6"><label class="form-label">Type</label><select class="form-select" name="bow_type"><option value="">Select…</option><option>Recurve bow</option><option>Compound bow</option><option>Barebow</option><option>Longbow</option></select></div>
+                <div class="col-6"><label class="form-label">Brand</label><input class="form-control" name="brand" placeholder="e.g. Hoyt"></div>
+                <div class="col-6"><label class="form-label">Size (Riser)</label><input class="form-control" name="size" placeholder="e.g. 25"></div>
+                <div class="col-6 d-flex align-items-end"><button class="btn btn-primary w-100">Save Bow</button></div>
               </div>
-              <div class="col-12"><button class="btn btn-primary w-100">+ Add bow</button></div>
             </form>
-            <ul class="list-group list-group-flush">
-              ${(bows ?? []).map(b => `<li class="list-group-item d-flex justify-content-between align-items-center"
-                style="background:transparent;border-color:var(--border);color:var(--text)">
-                <span>${esc(b.name)}${b.bow_type ? ` <small class="text-muted">· ${esc(b.bow_type)}</small>` : ''}</span>
-                <button class="btn btn-sm btn-outline-danger" data-del-bow="${b.id}">×</button>
-              </li>`).join('') || '<li class="list-group-item text-muted" style="background:transparent;border-color:var(--border)">No bows yet.</li>'}
-            </ul>
+          </details>
+
+          <div class="d-flex flex-column gap-3">
+            ${(bows ?? []).map(b => `
+              <div class="card p-3" style="background:var(--surface-2);box-shadow:none">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="d-flex gap-3 align-items-center">
+                    <div style="width:48px;height:48px;border-radius:12px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🏹</div>
+                    <div>
+                      <h6 class="mb-1 fw-bold text-white">${esc(b.name)}</h6>
+                      <div class="text-muted small">Type: ${esc(b.bow_type || '—')}</div>
+                      <div class="text-muted small">Brand: ${esc(b.brand || '—')}</div>
+                      ${b.size ? `<div class="text-muted small">Size: ${esc(b.size)}</div>` : ''}
+                    </div>
+                  </div>
+                  <button class="btn btn-sm btn-outline-danger" data-del-bow="${b.id}">×</button>
+                </div>
+              </div>
+            `).join('') || '<div class="text-muted text-center py-4">No bows added yet.</div>'}
           </div>
         </div>
+        
         <div class="col-md-6">
-          <div class="card p-3">
-            <h2 class="h6 mb-3" style="font-weight:800">➶ Arrow sets</h2>
-            <form id="set-form" class="row g-2 mb-3">
-              <div class="col-8"><input class="form-control" name="name" placeholder="Set name" required></div>
-              <div class="col-4"><input class="form-control" type="number" name="quantity" placeholder="Qty" min="0"></div>
-              <div class="col-12"><button class="btn btn-primary w-100">+ Add set</button></div>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h5 mb-0">➶ Arrow sets</h2>
+          </div>
+          
+          <details class="mb-3">
+            <summary class="btn btn-primary w-100">+ Add Arrow Set</summary>
+            <form id="set-form" class="card p-3 mt-2" style="background:var(--surface-3);box-shadow:none">
+              <div class="row g-2">
+                <div class="col-12"><label class="form-label">Set Name</label><input class="form-control" name="name" placeholder="e.g. Easton X10" required></div>
+                <div class="col-6"><label class="form-label">Quantity</label><input class="form-control" type="number" name="quantity" placeholder="12" min="0"></div>
+                <div class="col-6 d-flex align-items-end"><button class="btn btn-primary w-100">Save Set</button></div>
+              </div>
             </form>
-            <ul class="list-group list-group-flush">
-              ${(sets ?? []).map(s => `<li class="list-group-item d-flex justify-content-between align-items-center"
-                style="background:transparent;border-color:var(--border);color:var(--text)">
-                <span>${esc(s.name)}${s.quantity ? ` <small class="text-muted">· ${s.quantity}</small>` : ''}</span>
-                <button class="btn btn-sm btn-outline-danger" data-del-set="${s.id}">×</button>
-              </li>`).join('') || '<li class="list-group-item text-muted" style="background:transparent;border-color:var(--border)">No sets yet.</li>'}
-            </ul>
+          </details>
+
+          <div class="d-flex flex-column gap-3">
+            ${(sets ?? []).map(s => `
+              <div class="card p-3" style="background:var(--surface-2);box-shadow:none">
+                <div class="d-flex justify-content-between align-items-start">
+                  <div class="d-flex gap-3 align-items-center">
+                    <div style="width:48px;height:48px;border-radius:12px;background:var(--surface-3);display:flex;align-items:center;justify-content:center;font-size:1.5rem">➶</div>
+                    <div>
+                      <h6 class="mb-1 fw-bold text-white">${esc(s.name)}</h6>
+                      ${s.quantity ? `<div class="text-muted small">Qty: ${esc(s.quantity)}</div>` : ''}
+                    </div>
+                  </div>
+                  <button class="btn btn-sm btn-outline-danger" data-del-set="${s.id}">×</button>
+                </div>
+              </div>
+            `).join('') || '<div class="text-muted text-center py-4">No arrow sets added yet.</div>'}
           </div>
         </div>
       </div>
     </div>`;
+
   document.getElementById('bow-form').addEventListener('submit', async e => {
     e.preventDefault();
     const fd = new FormData(e.target);
     const name = (fd.get('name') || '').trim();
     if (!name) return;
-    const { error } = await sb.from('bows').insert({ user_id: state.user.id, name, bow_type: fd.get('bow_type') || null });
+    const { error } = await sb.from('bows').insert({ 
+      user_id: state.user.id, 
+      name, 
+      bow_type: fd.get('bow_type') || null,
+      brand: fd.get('brand') || null,
+      size: fd.get('size') || null
+    });
     if (error) return alert(error.message);
     renderEquipment();
   });
@@ -2129,28 +1631,177 @@ async function renderEquipment() {
     const fd = new FormData(e.target);
     const name = (fd.get('name') || '').trim();
     if (!name) return;
-    const { error } = await sb.from('arrow_sets').insert({
-      user_id: state.user.id, name,
-      quantity: fd.get('quantity') ? Number(fd.get('quantity')) : null
-    });
+    const { error } = await sb.from('arrow_sets').insert({ user_id: state.user.id, name, quantity: fd.get('quantity') ? Number(fd.get('quantity')) : null });
     if (error) return alert(error.message);
     renderEquipment();
   });
-  document.querySelectorAll('[data-del-bow]').forEach(b =>
-    b.onclick = async () => {
-      if (!confirm('Delete this bow?')) return;
-      await sb.from('bows').delete().eq('id', b.dataset.delBow);
-      renderEquipment();
-    });
-  document.querySelectorAll('[data-del-set]').forEach(b =>
-    b.onclick = async () => {
-      if (!confirm('Delete this arrow set?')) return;
-      await sb.from('arrow_sets').delete().eq('id', b.dataset.delSet);
-      renderEquipment();
-    });
+  document.querySelectorAll('[data-del-bow]').forEach(b => b.onclick = async () => {
+    if (!confirm('Delete this bow?')) return;
+    await sb.from('bows').delete().eq('id', b.dataset.delBow);
+    renderEquipment();
+  });
+  document.querySelectorAll('[data-del-set]').forEach(b => b.onclick = async () => {
+    if (!confirm('Delete this arrow set?')) return;
+    await sb.from('arrow_sets').delete().eq('id', b.dataset.delSet);
+    renderEquipment();
+  });
 }
 
-/* ============== STATS ============== */
+/* STATS */
+function drawDonut(canvasId, data) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const size = canvas.parentElement.clientWidth;
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  canvas.style.width = size + 'px';
+  canvas.style.height = size + 'px';
+  ctx.scale(dpr, dpr);
+
+  const center = size / 2;
+  const radius = size * 0.4;
+  const innerRadius = size * 0.25;
+
+  let total = 0;
+  const keys = Object.keys(data).sort((a,b) => Number(b) - Number(a));
+  keys.forEach(k => total += data[k]);
+
+  if (total === 0) return;
+
+  let startAngle = -Math.PI / 2;
+  
+  const colors = {
+    '10': '#f5c443', 'x': '#f5c443', // Gold
+    '9': '#f43f5e', '8': '#f43f5e', // Red
+    '7': '#3b82f6', '6': '#3b82f6', // Blue
+    '5': '#1a1a1a', '4': '#1a1a1a', // Black
+    '3': '#f5f5f5', '2': '#f5f5f5', '1': '#f5f5f5', // White
+    '0': '#64748b' // Miss
+  };
+
+  keys.forEach(k => {
+    const val = data[k];
+    if (val === 0) return;
+    const sliceAngle = (val / total) * 2 * Math.PI;
+    
+    ctx.beginPath();
+    ctx.fillStyle = colors[k] || '#ccc';
+    ctx.moveTo(center, center);
+    ctx.arc(center, center, radius, startAngle, startAngle + sliceAngle);
+    ctx.closePath();
+    ctx.fill();
+
+    // Text label
+    const midAngle = startAngle + sliceAngle / 2;
+    const labelR = radius * 0.7;
+    const x = center + Math.cos(midAngle) * labelR;
+    const y = center + Math.sin(midAngle) * labelR;
+    
+    ctx.fillStyle = (k === '3' || k === '2' || k === '1' || k === '5' || k === '4') ? '#000' : '#fff';
+    ctx.font = 'bold 14px Inter';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (sliceAngle > 0.3) {
+      ctx.fillText(k, x, y);
+    }
+
+    startAngle += sliceAngle;
+  });
+
+  // Inner circle
+  ctx.beginPath();
+  ctx.fillStyle = getComputedStyle(document.body).backgroundColor || '#04060f';
+  ctx.arc(center, center, innerRadius, 0, 2 * Math.PI);
+  ctx.fill();
+
+  // Center text
+  ctx.fillStyle = getComputedStyle(document.body).color || '#e8edf7';
+  ctx.font = 'bold 20px "JetBrains Mono"';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(total, center, center - 8);
+  ctx.font = '10px Inter';
+  ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--muted') || '#7d8baa';
+  ctx.fillText('ARROWS', center, center + 12);
+}
+
+function drawDispersion(canvasId, data) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const size = Math.min(canvas.parentElement.clientWidth, 320);
+  canvas.width = size * dpr;
+  canvas.height = size * dpr;
+  canvas.style.width = size + 'px';
+  canvas.style.height = size + 'px';
+  ctx.scale(dpr, dpr);
+
+  const center = size / 2;
+  const maxR = size * 0.45;
+
+  // Draw Rings
+  const rings = [
+    { score: 10, r: maxR * 0.1, color: '#f5c443' },
+    { score: 9, r: maxR * 0.2, color: '#f5c443' },
+    { score: 8, r: maxR * 0.3, color: '#f43f5e' },
+    { score: 7, r: maxR * 0.4, color: '#f43f5e' },
+    { score: 6, r: maxR * 0.5, color: '#3b82f6' },
+    { score: 5, r: maxR * 0.6, color: '#3b82f6' },
+    { score: 4, r: maxR * 0.7, color: '#1a1a1a' },
+    { score: 3, r: maxR * 0.8, color: '#1a1a1a' },
+    { score: 2, r: maxR * 0.9, color: '#f5f5f5' },
+    { score: 1, r: maxR * 1.0, color: '#f5f5f5' },
+  ];
+
+  rings.slice().reverse().forEach(ring => {
+    ctx.beginPath();
+    ctx.fillStyle = ring.color;
+    ctx.arc(center, center, ring.r, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Draw ring border
+    ctx.strokeStyle = 'rgba(0,0,0,.2)';
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  });
+
+  // Plot shots
+  Object.keys(data).forEach(scoreStr => {
+    const score = Number(scoreStr);
+    const count = data[scoreStr];
+    if (count === 0) return;
+
+    for (let i = 0; i < count; i++) {
+      // Random radius within the ring bounds
+      const minR = score === 10 ? 0 : maxR * ((10 - score - 1) * 0.1);
+      const maxRingR = maxR * ((10 - score) * 0.1);
+      // Bias slightly towards the middle of the ring
+      const r = minR + Math.random() * (maxRingR - minR);
+      
+      const angle = Math.random() * Math.PI * 2;
+      const x = center + Math.cos(angle) * r;
+      const y = center + Math.sin(angle) * r;
+
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(255,255,255,.8)';
+      ctx.arc(x, y, 1.5, 0, 2 * Math.PI);
+      ctx.fill();
+    }
+  });
+  
+  // Crosshairs
+  ctx.strokeStyle = 'rgba(0,0,0,.3)';
+  ctx.beginPath();
+  ctx.moveTo(center, center - maxR);
+  ctx.lineTo(center, center + maxR);
+  ctx.moveTo(center - maxR, center);
+  ctx.lineTo(center + maxR, center);
+  ctx.stroke();
+}
+
 async function renderStats() {
   app.innerHTML = '<p class="text-muted">Loading…</p>';
   const { data, error } = await sb.from('sessions')
@@ -2159,13 +1810,10 @@ async function renderStats() {
   if (error) { app.innerHTML = alertBox(error.message); return; }
   if (!data?.length) {
     app.innerHTML = `<div class="fade-in"><h1 class="h3 fw-bold mb-3">Statistics</h1>
-      <div class="card"><div class="empty-state">
-        <div class="icon">📊</div>
-        <div class="title">No session data yet</div>
-        <div class="subtitle">Add some sessions to see stats.</div>
-      </div></div></div>`;
+      <div class="card"><div class="empty-state"><div class="icon">📊</div><div class="title">No session data yet</div><div class="subtitle">Add sessions to see stats.</div></div></div></div>`;
     return;
   }
+  
   const sessions = data.map(s => {
     const arrows = (s.ends ?? []).flatMap(e => e.arrows ?? []).filter(a => a.score != null);
     return {
@@ -2186,41 +1834,54 @@ async function renderStats() {
         <h1 class="h3 fw-bold mb-0">Statistics</h1>
         <button class="btn btn-outline-primary btn-sm" id="export-csv">⬇ Export CSV</button>
       </div>
+      
       <div class="row g-3 mb-4">
-        <div class="col-6 col-md-3"><div class="stat-card">
-          <div class="stat-label">Sessions</div><div class="stat-value">${sessions.length}</div></div></div>
-        <div class="col-6 col-md-3"><div class="stat-card">
-          <div class="stat-label">Arrows</div><div class="stat-value">${arrowCount}</div></div></div>
-        <div class="col-6 col-md-3"><div class="stat-card">
-          <div class="stat-label">Total Score</div><div class="stat-value">${overall}</div></div></div>
-        <div class="col-6 col-md-3"><div class="stat-card">
-          <div class="stat-label">Avg / Session</div><div class="stat-value">${(overall / sessions.length).toFixed(1)}</div></div></div>
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Sessions</div><div class="stat-value">${sessions.length}</div></div></div>
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Arrows</div><div class="stat-value">${arrowCount}</div></div></div>
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Total Score</div><div class="stat-value">${overall}</div></div></div>
+        <div class="col-6 col-md-3"><div class="stat-card"><div class="stat-label">Avg / Session</div><div class="stat-value">${(overall / sessions.length).toFixed(1)}</div></div></div>
       </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="card p-3 h-100 d-flex flex-column align-items-center justify-content-center">
+            <h2 class="h6 mb-3 w-100 text-start">Distribution</h2>
+            <div class="w-100 d-flex justify-content-center position-relative">
+              <canvas id="donut-chart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card p-3 h-100 d-flex flex-column align-items-center justify-content-center">
+            <h2 class="h6 mb-3 w-100 text-start">Dispersion Pattern</h2>
+            <div class="w-100 d-flex justify-content-center position-relative">
+              <canvas id="dispersion-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card p-3 mb-4">
-        <h2 class="h6 mb-3" style="font-weight:800">By round</h2>
+        <h2 class="h6 mb-3">By round</h2>
         <div class="table-responsive"><table class="table table-striped align-middle mb-0">
-          <thead><tr><th>Round</th><th class="text-end">Sessions</th>
-            <th class="text-end">Best</th><th class="text-end">Avg</th></tr></thead>
+          <thead><tr><th>Round</th><th class="text-end">Sessions</th><th class="text-end">Best</th><th class="text-end">Avg</th></tr></thead>
           <tbody>${Object.entries(byRound).map(([name, list]) => {
             const totals = list.map(s => s.total);
-            return `<tr>
-              <td>${esc(name)}</td>
-              <td class="text-end">${list.length}</td>
+            return `<tr><td>${esc(name)}</td><td class="text-end">${list.length}</td>
               <td class="text-end end-total">${Math.max(...totals)}</td>
-              <td class="text-end">${(totals.reduce((a,b)=>a+b,0)/totals.length).toFixed(1)}</td>
-            </tr>`;
+              <td class="text-end">${(totals.reduce((a,b)=>a+b,0)/totals.length).toFixed(1)}</td></tr>`;
           }).join('')}</tbody>
         </table></div>
       </div>
+      
       <div class="card p-3 mb-4">
-        <h2 class="h6 mb-3" style="font-weight:800">Arrow consistency</h2>
-        <p class="text-muted small mb-3">
-          Average score by position in the quiver. If one arrow is off, this will show it.
-        </p>
+        <h2 class="h6 mb-3">Arrow consistency</h2>
+        <p class="text-muted small mb-3">Average score by position in the quiver.</p>
         <div id="arrow-analysis" class="text-muted">Loading…</div>
       </div>
+
       <div class="card p-3">
-        <h2 class="h6 mb-3" style="font-weight:800">Recent session totals</h2>
+        <h2 class="h6 mb-3">Recent session totals</h2>
         <canvas id="trend" style="width:100%;height:200px"></canvas>
       </div>
     </div>`;
@@ -2228,29 +1889,34 @@ async function renderStats() {
   document.getElementById('export-csv').onclick = () => {
     const header = ['Date', 'Round', 'Total', 'Arrows'];
     const rows = sessions.map(s => [s.date, s.roundName, s.total, s.arrowCount]);
-    const csv = [header, ...rows]
-      .map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','))
-      .join('\r\n');
+    const csv = [header, ...rows].map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
     const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `myarcherlog-${new Date().toISOString().slice(0,10)}.csv`;
+    a.href = url; a.download = `myarcherlog-${new Date().toISOString().slice(0,10)}.csv`;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
   const { data: arrowData } = await sb.from('arrows').select('arrow_number, score');
   const byPos = {};
+  const byScore = {}; // For distribution chart
+  
   for (const a of arrowData ?? []) {
     if (a.score == null) continue;
     byPos[a.arrow_number] ??= { sum: 0, count: 0 };
     byPos[a.arrow_number].sum += a.score;
     byPos[a.arrow_number].count += 1;
+    
+    byScore[a.score] ??= 0;
+    byScore[a.score] += 1;
   }
-  const positions = Object.entries(byPos)
-    .map(([n, s]) => ({ n: Number(n), avg: s.sum / s.count, count: s.count }))
-    .sort((a, b) => a.n - b.n);
+  
+  // Draw Charts
+  drawDonut('donut-chart', byScore);
+  drawDispersion('dispersion-chart', byScore);
+
+  const positions = Object.entries(byPos).map(([n, s]) => ({ n: Number(n), avg: s.sum / s.count, count: s.count })).sort((a, b) => a.n - b.n);
   const wrap = document.getElementById('arrow-analysis');
   if (!positions.length) {
     wrap.innerHTML = '<span class="text-muted">No scored arrows yet.</span>';
@@ -2260,7 +1926,7 @@ async function renderStats() {
     wrap.innerHTML = `<div class="row g-2">${positions.map(p => {
       const pct = (p.avg / 10) * 100;
       const isWorst = p.avg === minAvg && positions.length > 1 && maxAvg !== minAvg;
-      const isBest  = p.avg === maxAvg && positions.length > 1 && maxAvg !== minAvg;
+      const isBest = p.avg === maxAvg && positions.length > 1 && maxAvg !== minAvg;
       return `<div class="col-6 col-md-4 col-lg-3">
         <div class="p-2 rounded" style="background:var(--surface-2);border:1px solid ${isWorst ? 'var(--red)' : isBest ? 'var(--gold)' : 'var(--border)'}">
           <div class="d-flex justify-content-between align-items-center mb-1">
@@ -2268,7 +1934,7 @@ async function renderStats() {
             <span class="end-total small">${p.avg.toFixed(2)}</span>
           </div>
           <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
-            <div style="width:${pct}%;height:100%;background:${isWorst ? 'var(--red)' : isBest ? 'var(--gold)' : 'var(--accent)'};transition:width .3s"></div>
+            <div style="width:${pct}%;height:100%;background:${isWorst ? 'var(--red)' : isBest ? 'var(--gold)' : 'var(--accent)'}"></div>
           </div>
           <div class="text-muted" style="font-size:.7rem;margin-top:.3rem">${p.count} shots</div>
         </div>
@@ -2276,6 +1942,7 @@ async function renderStats() {
     }).join('')}</div>`;
   }
 
+  // Trend chart
   const canvas = document.getElementById('trend');
   const ctx = canvas.getContext('2d');
   const dpr = window.devicePixelRatio || 1;
@@ -2302,25 +1969,22 @@ async function renderStats() {
   ctx.beginPath(); ctx.moveTo(pad, cssH - pad); ctx.lineTo(cssW - pad, cssH - pad); ctx.stroke();
 }
 
-/* ============== EVENTS ============== */
+/* EVENTS */
 async function renderEvents() {
   app.innerHTML = `
     <div class="fade-in">
       <h1 class="h3 fw-bold mb-3">Events</h1>
       <div class="card p-3 mb-4">
-        <h2 class="h6 mb-3" style="font-weight:800">Create event</h2>
+        <h2 class="h6 mb-3">Create event</h2>
         <form id="event-form" class="row g-3">
-          <div class="col-md-5"><label class="form-label">Name</label>
-            <input class="form-control" name="name" required></div>
-          <div class="col-md-4"><label class="form-label">Date</label>
-            <input class="form-control" type="date" name="event_date" required></div>
-          <div class="col-md-3"><label class="form-label">Location</label>
-            <input class="form-control" name="location"></div>
+          <div class="col-md-5"><label class="form-label">Name</label><input class="form-control" name="name" required></div>
+          <div class="col-md-4"><label class="form-label">Date</label><input class="form-control" type="date" name="event_date" required></div>
+          <div class="col-md-3"><label class="form-label">Location</label><input class="form-control" name="location"></div>
           <div class="col-12"><button class="btn btn-primary">Create event</button></div>
           <div id="event-msg" class="col-12"></div>
         </form>
       </div>
-      <h2 class="h5 mb-3" style="font-weight:800">Events</h2>
+      <h2 class="h5 mb-3">Events</h2>
       <div id="event-list"><p class="text-muted">Loading…</p></div>
     </div>`;
   document.getElementById('event-form').addEventListener('submit', async e => {
@@ -2328,38 +1992,26 @@ async function renderEvents() {
     const fd = new FormData(e.target);
     const msg = document.getElementById('event-msg'); msg.innerHTML = '';
     const { error } = await sb.from('events').insert({
-      name: fd.get('name'),
-      event_date: fd.get('event_date'),
-      location: fd.get('location') || null,
-      created_by: state.user.id,
+      name: fd.get('name'), event_date: fd.get('event_date'),
+      location: fd.get('location') || null, created_by: state.user.id,
     });
     if (error) { msg.innerHTML = alertBox(error.message); return; }
-    e.target.reset();
-    loadEvents();
+    e.target.reset(); loadEvents();
   });
   loadEvents();
 }
 
 async function loadEvents() {
   const el = document.getElementById('event-list');
-  const { data, error } = await sb.from('events')
-    .select('*, event_results(*)')
-    .order('event_date', { ascending: false });
+  const { data, error } = await sb.from('events').select('*, event_results(*)').order('event_date', { ascending: false });
   if (error) { el.innerHTML = alertBox(error.message); return; }
   if (!data?.length) {
-    el.innerHTML = `<div class="card"><div class="empty-state">
-      <div class="icon">🏆</div>
-      <div class="title">No events yet</div>
-      <div class="subtitle">Create one above to start tracking.</div>
-    </div></div>`;
+    el.innerHTML = `<div class="card"><div class="empty-state"><div class="icon">🏆</div><div class="title">No events yet</div></div></div>`;
     return;
   }
   el.innerHTML = `<div class="card p-3"><div class="table-responsive">
     <table class="table table-striped align-middle mb-0">
-      <thead><tr>
-        <th>Date</th><th>Name</th><th>Location</th>
-        <th>Your result</th><th></th>
-      </tr></thead>
+      <thead><tr><th>Date</th><th>Name</th><th>Location</th><th>Your result</th><th></th></tr></thead>
       <tbody>${data.map(ev => {
         const mine = (ev.event_results ?? []).find(r => r.user_id === state.user.id);
         return `<tr>
@@ -2368,43 +2020,35 @@ async function loadEvents() {
           <td>${esc(ev.location ?? '—')}</td>
           <td>
             <form class="d-flex gap-1" data-result-for="${ev.id}">
-              <input class="form-control form-control-sm" type="number" name="score"
-                placeholder="Score" value="${mine?.score ?? ''}" style="max-width:100px">
-              <input class="form-control form-control-sm" type="number" name="rank_no"
-                placeholder="Rank" value="${mine?.rank_no ?? ''}" style="max-width:80px">
+              <input class="form-control form-control-sm" type="number" name="score" placeholder="Score" value="${mine?.score ?? ''}" style="max-width:100px">
+              <input class="form-control form-control-sm" type="number" name="rank_no" placeholder="Rank" value="${mine?.rank_no ?? ''}" style="max-width:80px">
               <button class="btn btn-sm btn-outline-primary">Save</button>
             </form>
           </td>
-          <td class="text-end">
-            ${ev.created_by === state.user.id
-              ? `<button class="btn btn-sm btn-outline-danger" data-del-event="${ev.id}">×</button>` : ''}
-          </td>
+          <td class="text-end">${ev.created_by === state.user.id ? `<button class="btn btn-sm btn-outline-danger" data-del-event="${ev.id}">×</button>` : ''}</td>
         </tr>`;
       }).join('')}</tbody>
     </table>
   </div></div>`;
-  el.querySelectorAll('form[data-result-for]').forEach(f =>
-    f.addEventListener('submit', async e => {
-      e.preventDefault();
-      const fd = new FormData(f);
-      const { error } = await sb.from('event_results').upsert({
-        event_id: Number(f.dataset.resultFor),
-        user_id: state.user.id,
-        score: fd.get('score') ? Number(fd.get('score')) : 0,
-        rank_no: fd.get('rank_no') ? Number(fd.get('rank_no')) : null,
-      }, { onConflict: 'event_id,user_id' });
-      if (error) return alert(error.message);
-      loadEvents();
-    }));
-  el.querySelectorAll('[data-del-event]').forEach(b =>
-    b.onclick = async () => {
-      if (!confirm('Delete this event and all results?')) return;
-      await sb.from('events').delete().eq('id', b.dataset.delEvent);
-      loadEvents();
-    });
+  el.querySelectorAll('form[data-result-for]').forEach(f => f.addEventListener('submit', async e => {
+    e.preventDefault();
+    const fd = new FormData(f);
+    const { error } = await sb.from('event_results').upsert({
+      event_id: Number(f.dataset.resultFor), user_id: state.user.id,
+      score: fd.get('score') ? Number(fd.get('score')) : 0,
+      rank_no: fd.get('rank_no') ? Number(fd.get('rank_no')) : null,
+    }, { onConflict: 'event_id,user_id' });
+    if (error) return alert(error.message);
+    loadEvents();
+  }));
+  el.querySelectorAll('[data-del-event]').forEach(b => b.onclick = async () => {
+    if (!confirm('Delete this event and all results?')) return;
+    await sb.from('events').delete().eq('id', b.dataset.delEvent);
+    loadEvents();
+  });
 }
 
-/* ============== BOOT ============== */
+/* BOOT */
 (async function boot() {
   const isRecoveryHash = /(^#|&)type=recovery(&|$)/.test(window.location.hash);
   if (isRecoveryHash) state.recoveryMode = true;
@@ -2413,8 +2057,7 @@ async function loadEvents() {
     if (event === 'PASSWORD_RECOVERY') {
       state.recoveryMode = true;
       state.user = session?.user ?? null;
-      render();
-      return;
+      render(); return;
     }
     if (event === 'SIGNED_OUT') {
       state.recoveryMode = false;
@@ -2422,8 +2065,7 @@ async function loadEvents() {
       state.view = 'dashboard';
       state.dirty = false;
       lastId = null;
-      render();
-      return;
+      render(); return;
     }
     const uid = session?.user?.id ?? null;
     if (uid !== lastId) {
